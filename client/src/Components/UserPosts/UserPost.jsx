@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import {mobile} from '../../responsive.js'
 import { Favorite, ModeComment} from '@material-ui/icons';
 import { useEffect } from 'react';
+import { API_URL } from '../../requestMethods.js';
 
 const InfoContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.2);
@@ -52,7 +53,7 @@ const UserPost = ({post}) => {
   return (
     <Container>
         <Wrapper>
-            <UserPostImage src={'https://connectplace.herokuapp.com/api/posts/find/'+post.img} />
+            <UserPostImage src={API_URL+'posts/find/'+post.img} />
             <InfoContainer>
                 <Icon>
                     <Favorite/>

@@ -13,6 +13,7 @@ import {mobile} from '../responsive.js'
 import {
     Link
 } from "react-router-dom";
+import { API_URL } from '../requestMethods';
 
 const Container = styled.div`
 
@@ -175,7 +176,7 @@ const ProfilePage = (userData) => {
         <Navbar user={userData.user}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={'https://connectplace.herokuapp.com/api/posts/find/'+userData.user.profileImage} alt={userData.user.username}/>
+                <ImageContainer src={API_URL+'posts/find/'+userData.user.profileImage} alt={userData.user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>

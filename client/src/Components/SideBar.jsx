@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { API_URL } from '../requestMethods.js';
 
 import {mobile} from '../responsive.js'
 
@@ -45,7 +46,7 @@ const SideBar = ({user}) => {
   return (
         <SiderBar>
             <UserInfoContainer >
-              <UserImage src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage}/>
+              <UserImage src={API_URL+"posts/find/"+user.profileImage}/>
               <Username>{user.username}</Username>
             </UserInfoContainer>
             <CopyRightContainer>

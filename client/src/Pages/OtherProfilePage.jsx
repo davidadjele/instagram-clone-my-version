@@ -14,7 +14,7 @@ import {
  } from '../redux/otherUserRedux.js';
 
 import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
-import { axiosInstance } from '../requestMethods';
+import { API_URL, axiosInstance } from '../requestMethods';
 
 const Container = styled.div`
 
@@ -272,7 +272,7 @@ const OtherProfilePage = (userData) => {
         <Navbar user={curentUser}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={'https://connectplace.herokuapp.com/api/posts/find/'+user.profileImage} alt={user.username}/>
+                <ImageContainer src={API_URL+'posts/find/'+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>

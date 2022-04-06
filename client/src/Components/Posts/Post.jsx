@@ -10,6 +10,7 @@ import {
     Favorite,
     Bookmark
 } from '@material-ui/icons';
+import { API_URL } from '../../requestMethods.js';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -106,12 +107,12 @@ const Post = ({post,user}) => {
   return (
     <Container>
         <PostTitleContainer>
-            <PostOwnerImage src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} />
+            <PostOwnerImage src={API_URL+"posts/find/"+user.profileImage} />
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 
         <PostImageContainer>
-            <PostImage src={'https://connectplace.herokuapp.com/api/posts/find/'+post.img} />
+            <PostImage src={API_URL+'posts/find/'+post.img} />
         </PostImageContainer>
 
         <PostButtonsContainer>

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
-import { useEffect,useState } from 'react';
+import { useState } from 'react';
 import {mobile} from '../responsive.js'
+import { axiosInstance } from '../requestMethods.js';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     display: flex;
@@ -62,25 +64,66 @@ const Agreement = styled.span`
     margin: 20px 0px;
 `;
 
+const Error = styled.span`
+  color: red;
+`;
+
 
 const RegisterPage = () => {
+    const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [accountCreated,setAccountCreated] = useState(false);
+    const [noValidPassword,setnoValidPassword] = useState(false);
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setnoValidPassword(false);
+        if (password === passwordConfirm && password !== '' && password !== '') {
+            try {
+                await axiosInstance.post("auth/register", 
+                    {
+                        username: username,
+                        name: name,
+                        email: email,
+                        password: password
+                    }
+                );
+                setAccountCreated(true);
+            } catch (err) {
+                console.log(err);
+            }
+        }else {
+            setnoValidPassword(true);
+        }
+
+    }
+
+    const handleLoginPage = () => {
+        navigate('/login')
+    }
   return (
     <Container>
         <Wrapper>
             <Title>CREATE AN ACCOUNT</Title>
             <Form>
-                <Input placeholder="name" />
-                <Input placeholder="last name" />
-                <Input placeholder="username" />
-                <Input placeholder="email" />
-                <Input type="password" placeholder="password" />
-                <Input type="password" placeholder="confirm password" />
+                <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
+                <Input placeholder="username" onChange={(e) => setUsername(e.target.value)} />
+                <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+                <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
+                <Input type="password" placeholder="confirm password" onChange={(e) => setPasswordConfirm(e.target.value)} />
 
                 <Agreement>
                     By creating an account, I consent to the processing of my personal
                     data in accordance with the <b>PRIVACY POLICY</b>
                 </Agreement>
-                <Button>CREATE</Button>
+                <Button onClick={handleRegister} >CREATE</Button>
+                {accountCreated && <Error>Something went wrong...</Error>}
+                {noValidPassword && <Error>You need to use same password</Error>}
+                <Link onClick={handleLoginPage} >GO TO LOGIN PAGE</Link>
             </Form>
         </Wrapper>
     </Container>

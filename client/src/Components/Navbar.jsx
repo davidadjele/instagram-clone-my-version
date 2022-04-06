@@ -21,7 +21,7 @@ import {
 } from '../redux/otherUserRedux.js';
 
 import { useState } from 'react';
-import { axiosInstance } from '../requestMethods.js';
+import { API_URL, axiosInstance } from '../requestMethods.js';
 
 const Container = styled.div`
     height: 8vh;
@@ -254,7 +254,7 @@ const Navbar = ({user}) => {
                     {!activeAddButton && <AddBoxOutlined style={{cursor:'pointer',fontSize:'40px'}}/>}
                 </MenuItem>
                 <MenuItem onClick={handleActiveProfile} >
-                    <Image src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} />
+                    <Image src={API_URL+"posts/find/"+user.profileImage} />
                 </MenuItem>
             </Right>
         </Wrapper>

@@ -5,6 +5,7 @@ import {
 
 import {mobile} from '../../responsive.js'
 import { useState } from 'react';
+import { API_URL } from '../../requestMethods.js';
 
 const Container = styled.div`
     display: flex;
@@ -147,7 +148,7 @@ const EditProfile = ({user}) => {
     <Container>
         <UserInfoContainer>
             <UserImageContainer>
-                <UserImage src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} alt={user.username}/>
+                <UserImage src={API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
             </UserImageContainer>
             <UserNameContainer>
                 <UserName>
