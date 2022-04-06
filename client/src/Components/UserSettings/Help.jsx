@@ -42,7 +42,7 @@ const Help = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleCreateAccount = (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout(null));
     dispatch(logoutOtherUser(null));
@@ -54,7 +54,7 @@ const Help = () => {
         <Title>Help</Title>
         
       </TitleContainer>
-      <Link onClick={handleCreateAccount} >LOGOUT</Link>
+      <Link onClick={handleLogout} >LOGOUT</Link>
     </Container>
   )
 }

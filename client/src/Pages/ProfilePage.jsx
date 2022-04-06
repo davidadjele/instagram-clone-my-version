@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import Navbar from '../Components/Navbar';
 import UserSavedPosts from '../Components/UserSavedPosts';
 import UserPosts from '../Components/UserPosts/UserPosts';
+import BottomMobileBar from '../Components/BottomMobileBar';
 
 import {mobile} from '../responsive.js'
 
@@ -128,18 +129,6 @@ const Favorite = styled.p`
 const Post = styled.p`
 `;
 
-const UserPostContainer = styled.div`
-   
-`;
-
-const ModalContent = styled.div`
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-bottom: .5px solid gray;
-`;
-
 const MenuItem = styled.div`
     display: flex;
     align-items: center;
@@ -224,6 +213,7 @@ const ProfilePage = (userData) => {
             </UserMiddleFavoriteButton>
         </UserMiddleButton>
         { activePostButton? <UserPosts posts={userData.posts} /> : <UserSavedPosts/>}
+        <BottomMobileBar/>
         
     </Container>
   )

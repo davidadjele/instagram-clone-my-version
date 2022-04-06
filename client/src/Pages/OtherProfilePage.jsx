@@ -5,6 +5,7 @@ import "./ProfilePage.css"
 
 import styled from 'styled-components'
 import Navbar from '../Components/Navbar';
+import BottomMobileBar from '../Components/BottomMobileBar';
 
 import {mobile} from '../responsive.js'
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +18,7 @@ import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
 import { API_URL, axiosInstance } from '../requestMethods';
 
 const Container = styled.div`
-
+    position: relative;
 `;
 
 const UserInfoContainer = styled.div`
@@ -109,30 +110,13 @@ const UserMiddlePostButton = styled.div`
     align-items: center;
     margin-right: 40px;
     cursor: pointer;
-    color: ${(props) => props.active ? 'black': 'gray'};
-    border-top: ${(props) => props.active ? '.7px solid black': 'none'};
+    color: black;
 `;
 
-const UserMiddleFavoriteButton = styled.div`
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: ${(props) => props.active ? 'black': 'gray'};
-    border-top: ${(props) => props.active ? '.7px solid black': 'none'};
-`;
-
-
-const Favorite = styled.p`
-`;
 
 const Post = styled.p`
 `;
 
-const UserPostContainer = styled.div`
-   
-`;
 
 
 const MenuItem = styled.div`
@@ -143,8 +127,6 @@ const MenuItem = styled.div`
 `;
 
 const OtherProfilePage = (userData) => {
-    const [activePostButton,setActivePostButton] = useState(true);
-    const [activeFavtButton,setActiveFavButton] = useState(false);
     const [isFollow,setIsFollow] = useState(false);
     const dispatch = useDispatch();
     const user =  useSelector((state) => state.otherUser.otherUser);
@@ -185,16 +167,6 @@ const OtherProfilePage = (userData) => {
         return () => clearInterval(interval);
       });
 
-    const handlePostButtonClick = () =>{
-    
-        if(activePostButton){
-            setActiveFavButton(false);
-        }else{
-            setActivePostButton(true);
-            setActiveFavButton(false);
-        }
-        
-    }
 
     const handleFollow = async () =>{
         if(isFollow){
@@ -302,13 +274,13 @@ const OtherProfilePage = (userData) => {
         </UserInfoContainer>
         
         <UserMiddleButton>
-            <UserMiddlePostButton active={activePostButton} onClick={handlePostButtonClick} >
+            <UserMiddlePostButton >
                 <GridOnOutlined style={{marginRight:6}} />
                 <Post>Posts</Post>
             </UserMiddlePostButton>
         </UserMiddleButton>
         <OtherUserPosts posts={userPost}/>
-        
+        <BottomMobileBar/>
     </Container>
   )
 }

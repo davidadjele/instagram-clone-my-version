@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import BottomMobileBar from '../Components/BottomMobileBar';
 import Feed from '../Components/Feed';
 import Navbar from '../Components/Navbar';
 import SideBar from '../Components/SideBar';
@@ -14,6 +15,7 @@ const HomePage = (userData) => {
         <Navbar user={userData.user}/>
         <SideBar user={userData.user}/>
         <Feed user={userData.user} posts={userData.posts} />
+        <BottomMobileBar />
     </Container>
   )
 }
