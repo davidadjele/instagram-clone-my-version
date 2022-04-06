@@ -147,7 +147,7 @@ const EditProfile = ({user}) => {
     <Container>
         <UserInfoContainer>
             <UserImageContainer>
-                <UserImage src={"http://localhost:5000/api/posts/find/"+user.profileImage} alt={user.username}/>
+                <UserImage src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} alt={user.username}/>
             </UserImageContainer>
             <UserNameContainer>
                 <UserName>

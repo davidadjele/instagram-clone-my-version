@@ -106,12 +106,12 @@ const Post = ({post,user}) => {
   return (
     <Container>
         <PostTitleContainer>
-            <PostOwnerImage src={"http://localhost:5000/api/posts/find/"+user.profileImage} />
+            <PostOwnerImage src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} />
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 
         <PostImageContainer>
-            <PostImage src={'http://localhost:5000/api/posts/find/'+post.img} />
+            <PostImage src={'https://connectplace.herokuapp.com/api/posts/find/'+post.img} />
         </PostImageContainer>
 
         <PostButtonsContainer>

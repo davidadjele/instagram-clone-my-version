@@ -52,7 +52,7 @@ const OtherUserPost = ({post}) => {
   return (
     <Container>
         <Wrapper>
-            <UserPostImage src={'http://localhost:5000/api/posts/find/'+post.img} />
+            <UserPostImage src={'https://connectplace.herokuapp.com/api/posts/find/'+post.img} />
             <InfoContainer>
                 <Icon>
                     <Favorite/>

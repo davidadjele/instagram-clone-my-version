@@ -272,7 +272,7 @@ const OtherProfilePage = (userData) => {
         <Navbar user={curentUser}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={'http://localhost:5000/api/posts/find/'+user.profileImage} alt={user.username}/>
+                <ImageContainer src={'https://connectplace.herokuapp.com/api/posts/find/'+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>

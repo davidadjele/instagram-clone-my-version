@@ -254,7 +254,7 @@ const Navbar = ({user}) => {
                     {!activeAddButton && <AddBoxOutlined style={{cursor:'pointer',fontSize:'40px'}}/>}
                 </MenuItem>
                 <MenuItem onClick={handleActiveProfile} >
-                    <Image src={"http://localhost:5000/api/posts/find/"+user.profileImage} />
+                    <Image src={"https://connectplace.herokuapp.com/api/posts/find/"+user.profileImage} />
                 </MenuItem>
             </Right>
         </Wrapper>
