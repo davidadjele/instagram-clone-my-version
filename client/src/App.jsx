@@ -15,11 +15,9 @@ import MessagePage from "./Pages/MessagePage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import OtherProfilePage from "./Pages/OtherProfilePage";
-import { useState } from "react";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
-  const [posts,setPosts] = useState([]);
 
   return( 
     <Router>

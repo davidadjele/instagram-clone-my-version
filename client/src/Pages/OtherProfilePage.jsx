@@ -16,7 +16,7 @@ import {
 
 import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
 import { API_URL, axiosInstance, fetchUsers } from '../requestMethods';
-import { setUserDataStatus } from '../redux/userRedux';
+import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
     position: relative;
@@ -134,8 +134,9 @@ const OtherProfilePage = () => {
     const OtherUserDataChanged =  useSelector((state) => state.otherUser.OtherUserDataChanged);
 
     useEffect(() => {
+        console.log(curentUser.numberOfFollowing);
         const interval = setInterval(() => {
-         const checkIfAlreadyFollowOtherUser = ()=>{
+        const checkIfAlreadyFollowOtherUser = ()=>{
              if(curentUser.numberOfFollowing.some(item => item=== user._id)) {
                  setIsFollow(true);
              }else {
@@ -144,13 +145,15 @@ const OtherProfilePage = () => {
          }
          checkIfAlreadyFollowOtherUser()
          //* FOR UPDATE OTHER USER INFO AFTER FOLLOWING
+         if(OtherUserDataChanged) {
+            fetchUsers(dispatch,user,token,setOtherUser);
+            fetchUsers(dispatch,curentUser,token, updateUser)
+            dispatch(setOtherUserDataStatus(false));
+        }
          
         }, 1000);
         console.log(OtherUserDataChanged);
-        if(OtherUserDataChanged) {
-            fetchUsers(dispatch,user,token,setOtherUser);
-            dispatch(setOtherUserDataStatus(false));
-        }
+        
         return () => clearInterval(interval);
       });
 
