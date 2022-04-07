@@ -142,23 +142,23 @@ const ProfilePage = () => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user.currentUser);
     const userDataChanged = useSelector((state) => state.user.currentUserDataChanged);
-    const postsBackup = useSelector((state) => state.user.currentUserPost);
     const token =  useSelector((state) => state.user.currentUserToken);
     const [posts,setPosts] = useState(null);
 
     const [activePostButton,setActivePostButton] = useState(true);
     const [activeFavtButton,setActiveFavButton] = useState(false);
 
-    useEffect(async () => {
-        //Fetch data on change (real data time)
-        if(userDataChanged) {
-            
-          await getUserPosts(dispatch,setPosts,user,token)
-          
-          await fetchUsers(dispatch,user,token, updateUser)
-          
-          dispatch(setUserDataStatus(false));
+    useEffect(() => {
+        const updateInfo = async () =>{
+            if(userDataChanged || posts === null) {
+                await getUserPosts(dispatch,setPosts,user,token)
+              
+                await fetchUsers(dispatch,user,token, updateUser)
+              
+                dispatch(setUserDataStatus(false));
+            }
         }
+        updateInfo();
     });
 
     const handlePostButtonClick = () =>{
@@ -207,7 +207,7 @@ const ProfilePage = () => {
                 </UserInfoContainerRightTop>
 
                 <UserInfoContainerRightMiddle>
-                    <NumberOfPost>{posts === null? postsBackup.images.length : posts.images.length} posts</NumberOfPost>
+                    <NumberOfPost>{posts?.images.length} posts</NumberOfPost>
                     <NumberOfFollower>{user.numberOfFollowers.length} followers</NumberOfFollower>
                     <NumberOfFollowing>{user.numberOfFollowing.length} following</NumberOfFollowing>
                 </UserInfoContainerRightMiddle>
@@ -232,7 +232,7 @@ const ProfilePage = () => {
                 <Favorite>Saved</Favorite>
             </UserMiddleFavoriteButton>
         </UserMiddleButton>
-        { activePostButton? <UserPosts posts={posts === null? postsBackup:posts } /> : <UserSavedPosts/>}
+        { activePostButton && posts? <UserPosts posts={posts} /> : <UserSavedPosts/>}
         <BottomMobileBar/>
         
     </Container>

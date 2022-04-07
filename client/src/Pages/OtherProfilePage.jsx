@@ -134,27 +134,20 @@ const OtherProfilePage = () => {
     const OtherUserDataChanged =  useSelector((state) => state.otherUser.OtherUserDataChanged);
 
     useEffect(() => {
-        console.log(curentUser.numberOfFollowing);
-        const interval = setInterval(() => {
-        const checkIfAlreadyFollowOtherUser = ()=>{
-             if(curentUser.numberOfFollowing.some(item => item=== user._id)) {
-                 setIsFollow(true);
-             }else {
+
+        const updateInfo = async () => {
+            if(curentUser.numberOfFollowing.some(item => item=== user._id)) {
+                setIsFollow(true);
+            }else {
                 setIsFollow(false);
-             }
-         }
-         checkIfAlreadyFollowOtherUser()
-         //* FOR UPDATE OTHER USER INFO AFTER FOLLOWING
-         if(OtherUserDataChanged) {
-            fetchUsers(dispatch,user,token,setOtherUser);
-            fetchUsers(dispatch,curentUser,token, updateUser)
-            dispatch(setOtherUserDataStatus(false));
+            }
+            if(OtherUserDataChanged) {
+                await fetchUsers(dispatch,user,token,setOtherUser);
+                await fetchUsers(dispatch,curentUser,token, updateUser)
+                await dispatch(setOtherUserDataStatus(false));
+            }
         }
-         
-        }, 1000);
-        console.log(OtherUserDataChanged);
-        
-        return () => clearInterval(interval);
+        updateInfo()
       });
 
 

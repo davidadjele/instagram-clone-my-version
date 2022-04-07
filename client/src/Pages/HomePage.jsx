@@ -18,16 +18,18 @@ const HomePage = () => {
   const userDataChanged = useSelector((state) => state.user.currentUserDataChanged);
   const token =  useSelector((state) => state.user.currentUserToken);
   const [posts,setPosts] = useState([]);
-  useEffect(async () => {
+  useEffect( () => {
+      const updateInfo = async () => {
+        if(userDataChanged || posts.length === 0) {
+          await getUserPosts(dispatch,setPosts,user,token)
+          
+          await fetchUsers(dispatch,user,token, updateUser)
+          
+          dispatch(setUserDataStatus(false));
+        }
+      }
+      updateInfo()
     
-    //Fetch data on change (real data time)
-    if(userDataChanged || posts.length === 0) {
-      await getUserPosts(dispatch,setPosts,user,token)
-      
-      await fetchUsers(dispatch,user,token, updateUser)
-      
-      dispatch(setUserDataStatus(false));
-    }
   });
   return (
     <Container>
