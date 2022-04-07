@@ -1,5 +1,5 @@
 import { GridOnOutlined,SettingsOutlined,BookOutlined } from '@material-ui/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import "./ProfilePage.css"
 
@@ -14,7 +14,9 @@ import {mobile} from '../responsive.js'
 import {
     Link
 } from "react-router-dom";
-import { API_URL } from '../requestMethods';
+import { API_URL, fetchUsers, getUserPosts } from '../requestMethods';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
 
@@ -136,10 +138,28 @@ const MenuItem = styled.div`
     
 `;
 
-const ProfilePage = (userData) => {
+const ProfilePage = () => {
+    const dispatch = useDispatch()
+    const user = useSelector((state) => state.user.currentUser);
+    const userDataChanged = useSelector((state) => state.user.currentUserDataChanged);
+    const postsBackup = useSelector((state) => state.user.currentUserPost);
+    const token =  useSelector((state) => state.user.currentUserToken);
+    const [posts,setPosts] = useState(null);
 
     const [activePostButton,setActivePostButton] = useState(true);
     const [activeFavtButton,setActiveFavButton] = useState(false);
+
+    useEffect(async () => {
+        //Fetch data on change (real data time)
+        if(userDataChanged) {
+            
+          await getUserPosts(dispatch,setPosts,user,token)
+          
+          await fetchUsers(dispatch,user,token, updateUser)
+          
+          dispatch(setUserDataStatus(false));
+        }
+    });
 
     const handlePostButtonClick = () =>{
 
@@ -162,17 +182,17 @@ const ProfilePage = (userData) => {
     }
   return (
     <Container>
-        <Navbar user={userData.user}/>
+        <Navbar user={user}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={API_URL+'posts/find/'+userData.user.profileImage} alt={userData.user.username}/>
+                <ImageContainer src={API_URL+'posts/find/'+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>
 
                 <UserInfoContainerRightTop>
                     <MenuItem>
-                        <Username>{userData.user.username}</Username>
+                        <Username>{user.username}</Username>
                     </MenuItem>
                     <Link to="/settings" style={{textDecoration:'none',color:'black'}} >
                         <MenuItem>
@@ -181,21 +201,21 @@ const ProfilePage = (userData) => {
                     </Link>
                     <Link to="/settings" style={{color:'black'}} >
                         <MenuItem>
-                            <SettingsOutlined user={userData.user} style={{cursor:'pointer'}}/>
+                            <SettingsOutlined user={user} style={{cursor:'pointer'}}/>
                         </MenuItem>
                     </Link>
                 </UserInfoContainerRightTop>
 
                 <UserInfoContainerRightMiddle>
-                    <NumberOfPost>{/* {user.posts.length} */} posts</NumberOfPost>
-                    <NumberOfFollower>{userData.user.numberOfFollowers.length} followers</NumberOfFollower>
-                    <NumberOfFollowing>{userData.user.numberOfFollowing.length} following</NumberOfFollowing>
+                    <NumberOfPost>{posts === null? postsBackup.images.length : posts.images.length} posts</NumberOfPost>
+                    <NumberOfFollower>{user.numberOfFollowers.length} followers</NumberOfFollower>
+                    <NumberOfFollowing>{user.numberOfFollowing.length} following</NumberOfFollowing>
                 </UserInfoContainerRightMiddle>
 
                 <UserInfoContainerRightBottom>
-                    <Surname>{userData.user.name} 🇹🇬</Surname>
-                    <Description>{userData.user.bio}</Description>
-                    <Location>📍{userData.user.location}</Location>
+                    <Surname>{user.name} 🇹🇬</Surname>
+                    <Description>{user.bio}</Description>
+                    <Location>📍{user.location}</Location>
                 </UserInfoContainerRightBottom>
 
             </UserInfoContainerRight>
@@ -212,7 +232,7 @@ const ProfilePage = (userData) => {
                 <Favorite>Saved</Favorite>
             </UserMiddleFavoriteButton>
         </UserMiddleButton>
-        { activePostButton? <UserPosts posts={userData.posts} /> : <UserSavedPosts/>}
+        { activePostButton? <UserPosts posts={posts === null? postsBackup:posts } /> : <UserSavedPosts/>}
         <BottomMobileBar/>
         
     </Container>

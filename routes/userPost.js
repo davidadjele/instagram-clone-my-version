@@ -67,7 +67,7 @@ router.post("/:id", upload.single('image'), async (req, res) => {
     }
 });
 
-//GET ALL USER POST BY ID
+//GET ALL USER POST BY AUTHOR ID
 router.get('/findallimages/:id',verifyToken,(req, res) => {
     UserPost
         .find({author: req.params.id})

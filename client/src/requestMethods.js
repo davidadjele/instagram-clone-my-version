@@ -1,5 +1,5 @@
 import axios from "axios";
-import { loginSuccess } from "./redux/userRedux";
+import { setCurrentUserPost } from "./redux/userRedux";
 
 const BASE_URL = "https://connectplace.herokuapp.com/api/";
 const BASE_URL_DEV = "http://localhost:5000/api/";
@@ -26,7 +26,7 @@ export const userRequest = axios.create({
 });
 
 export const fetchUsers = async (dispatch,userInfo,token,fonction) => {
- // console.log(userInfo);
+
   try {
       const res = await axiosInstance.get(
           `users/finduserbyusername/${userInfo.username}`,
@@ -42,7 +42,7 @@ export const fetchUsers = async (dispatch,userInfo,token,fonction) => {
   }
 }
 
-export const getUserPosts= async (setPosts,userInfo,token) => {
+export const getUserPosts= async (dispatch,setPosts,userInfo,token) => {
   try {
     const res = await axiosInstance.get(
       `posts/findallimages/${userInfo._id}`,
@@ -52,6 +52,7 @@ export const getUserPosts= async (setPosts,userInfo,token) => {
         }
       });
       setPosts(res.data)
+      dispatch(setCurrentUserPost(res.data))
   } catch (error) {
     console.log(error);
   }

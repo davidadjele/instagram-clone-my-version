@@ -123,14 +123,10 @@ const NewPost = () => {
 
   const onChangeFile = (e) => {
     setFilename(e.target.files[0])
-    console.log(filename);
   }
   const uploadImageToDatabase = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    console.log(...data);
-
-
     try {
       await axiosInstance.post(
         `posts/${info._id}`,

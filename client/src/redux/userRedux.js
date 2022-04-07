@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
   currentUserToken:null,
+  currentUserPost: [],
   isFetching: false,
   currentUserDataChanged: false,
   error: false,
@@ -32,9 +33,13 @@ const userSlice = createSlice({
     setUserDataStatus: (state, action) => {
       state.currentUserDataChanged = action.payload;
     },
+    setCurrentUserPost: (state, action) => {
+      state.currentUserPost = action.payload;
+    },
     logout: (state) => {
-      state.currentUser = undefined;
-      state.currentUserToken = undefined;
+      state.currentUser = null;
+      state.currentUserToken = null;
+      state.currentUserPost = [];
       state.error = false;
     }
   },
@@ -47,7 +52,8 @@ export const {
   updateUser,
   setUserToken,
   logout,
-  setUserDataStatus
+  setUserDataStatus,
+  setCurrentUserPost
 } = userSlice.actions;
 
 export default userSlice.reducer;
