@@ -223,8 +223,8 @@ const Navbar = ({user}) => {
                                             token: `Bearer ${token}`,
                                         }
                                         });
-                                        dispatch( setOtherUserPosts(res.data) );
-                                        window.location.reload();
+                                    dispatch( setOtherUserPosts(res.data) );
+                                    window.location.reload();
                                 } catch (error) {
                                     console.log(error);
                                 }

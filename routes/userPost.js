@@ -51,13 +51,12 @@ connect.once('open', () => {
 
 //CREATE
 router.post("/:id", upload.single('image'), async (req, res) => {
-    console.log(req.file.filename);
+
     const newPost = new UserPost({
         author:req.params.id,
         img:req.file.filename,
         desc:req.body.desc,
     });
-    console.log(newPost);
     try {
         const savedPost = await newPost.save();
         

@@ -41,10 +41,10 @@ const Link = styled.a`
 const Help = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleLogout = (e) => {
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(logout(null));
+    dispatch(logout());
     dispatch(logoutOtherUser(null));
     navigate('/login')
   };

@@ -3,6 +3,7 @@ const initialState = {
   currentUser: null,
   currentUserToken:null,
   isFetching: false,
+  currentUserDataChanged: false,
   error: false,
 };
 const userSlice = createSlice({
@@ -28,9 +29,12 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.currentUser = action.payload;
     },
-    logout: (state, action) => {
-      state.currentUser = action.payload;
-      state.currentUserToken = action.payload;
+    setUserDataStatus: (state, action) => {
+      state.currentUserDataChanged = action.payload;
+    },
+    logout: (state) => {
+      state.currentUser = undefined;
+      state.currentUserToken = undefined;
       state.error = false;
     }
   },
@@ -42,7 +46,8 @@ export const {
   loginFailure ,
   updateUser,
   setUserToken,
-  logout
+  logout,
+  setUserDataStatus
 } = userSlice.actions;
 
 export default userSlice.reducer;

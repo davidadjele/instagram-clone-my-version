@@ -5,6 +5,7 @@ const otherUserSlice = createSlice({
     initialState:{
         otherUser: null,
         otherUserPosts: null,
+        OtherUserDataChanged: false,
     },
     reducers:{
         setOtherUser: (state,action) => {
@@ -12,6 +13,9 @@ const otherUserSlice = createSlice({
         },
         setOtherUserPosts: (state,action) => {
             state.otherUserPosts = action.payload;
+        },
+        setOtherUserDataStatus: (state, action) => {
+            state.OtherUserDataChanged = action.payload;
         },
         logoutOtherUser: (state, action) => {
             state.otherUser = action.payload;
@@ -25,6 +29,7 @@ export const {
     setOtherUser, 
     setOtherUserPosts ,
     logoutOtherUser,
+    setOtherUserDataStatus
 } = otherUserSlice.actions;
 
 export default otherUserSlice.reducer;

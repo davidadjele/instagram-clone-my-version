@@ -1,4 +1,4 @@
-import { GridOnOutlined,SettingsOutlined,BookOutlined } from '@material-ui/icons';
+import { GridOnOutlined } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 
 import "./ProfilePage.css"
@@ -11,11 +11,12 @@ import {mobile} from '../responsive.js'
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-    setOtherUser
+    setOtherUser, setOtherUserDataStatus
  } from '../redux/otherUserRedux.js';
 
 import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
-import { API_URL, axiosInstance } from '../requestMethods';
+import { API_URL, axiosInstance, fetchUsers } from '../requestMethods';
+import { setUserDataStatus } from '../redux/userRedux';
 
 const Container = styled.div`
     position: relative;
@@ -57,7 +58,7 @@ const Username = styled.p`
     ${mobile({ fontSize: 20})}
 `;
 
-const EditButton = styled.button`
+const FollowButton = styled.button`
     margin-right: 25px;
     border: .5px solid black;
     border-radius: 5px;
@@ -113,11 +114,8 @@ const UserMiddlePostButton = styled.div`
     color: black;
 `;
 
-
 const Post = styled.p`
 `;
-
-
 
 const MenuItem = styled.div`
     display: flex;
@@ -126,31 +124,14 @@ const MenuItem = styled.div`
     
 `;
 
-const OtherProfilePage = (userData) => {
+const OtherProfilePage = () => {
     const [isFollow,setIsFollow] = useState(false);
     const dispatch = useDispatch();
     const user =  useSelector((state) => state.otherUser.otherUser);
     const userPost =  useSelector((state) => state.otherUser.otherUserPosts);
     const curentUser = useSelector((state) => state.user.currentUser);
-    const token =  useSelector((state) => state.user.currentUserToken); 
-    const [posts,setPosts] = useState();
-
-    //* FOR UPDATE USER AFTER FOLLOWING
-    const fetchUsers = async () => {
-        try {
-            const res = await axiosInstance.get(
-                `users/finduserbyusername/${user.username}`,
-                {
-                headers:  { 
-                    token: `Bearer ${token}`,
-                }
-            });
-            dispatch( setOtherUser(res.data) );
-            
-        } catch (error) {
-            console.log(error);
-        }
-    } 
+    const token =  useSelector((state) => state.user.currentUserToken);
+    const OtherUserDataChanged =  useSelector((state) => state.otherUser.OtherUserDataChanged);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -162,32 +143,36 @@ const OtherProfilePage = (userData) => {
              }
          }
          checkIfAlreadyFollowOtherUser()
-         fetchUsers()
+         //* FOR UPDATE OTHER USER INFO AFTER FOLLOWING
+         
         }, 1000);
+        console.log(OtherUserDataChanged);
+        if(OtherUserDataChanged) {
+            fetchUsers(dispatch,user,token,setOtherUser);
+            dispatch(setOtherUserDataStatus(false));
+        }
         return () => clearInterval(interval);
       });
 
 
     const handleFollow = async () =>{
+        
         if(isFollow){
             
             try {
                 //retirer de following de user courant
-                await axiosInstance.delete(
-                `users/removefollowing/${curentUser._id}`
-                ,
-                {
-                    headers:  { 
-                      token: `Bearer ${token}`,
-                    },
-                    data:{
-                        "userToRemove":user._id
+                await axiosInstance.delete(`users/removefollowing/${curentUser._id}`,
+                    {
+                        headers:  { 
+                        token: `Bearer ${token}`,
+                        },
+                        data:{
+                            "userToRemove":user._id
+                        }
                     }
-                })
+                )
                  //retirer de followers de other user
-                await axiosInstance.delete(
-                    `users/removefollowers/${user._id}`
-                    ,
+                await axiosInstance.delete(`users/removefollowers/${user._id}`,
                     {
                         headers:  { 
                           token: `Bearer ${token}`,
@@ -195,47 +180,50 @@ const OtherProfilePage = (userData) => {
                         data:{
                             "userToRemove":curentUser._id
                         }
-                    })
-                    window.location.reload();
-              } catch (error) {
+                    }
+                )
+                dispatch(setOtherUserDataStatus(true));
+                dispatch(setUserDataStatus(true));
+            } catch (error) {
                 console.log(error);
-              }
+            }
            
         }else{
             
             try {
                 //ajouter dans following de user courant
-                await axiosInstance.put(
-                `users/addfollowing/${curentUser._id}`,
-                {
-                    "numberOfFollowing": [
-                        user._id
-                    ]
-                }
-                ,
-                {
-                    headers:  { 
-                      token: `Bearer ${token}`,
+                await axiosInstance.put(`users/addfollowing/${curentUser._id}`,
+                    {
+                        "numberOfFollowing": [
+                            user._id
+                        ]
                     }
-                })
-                 //ajouter dans followers de other user
-                await axiosInstance.put(
-                    `users/addfollowers/${user._id}`,
+                ,
+                    {
+                        headers:  { 
+                            token: `Bearer ${token}`,
+                        }
+                    }
+                )
+                    //ajouter dans followers de other user
+                await axiosInstance.put(`users/addfollowers/${user._id}`,
                     {
                         "numberOfFollowers": [
                             curentUser._id
                         ]
                     }
-                    ,
+                ,
                     {
                         headers:  { 
-                          token: `Bearer ${token}`,
+                            token: `Bearer ${token}`,
                         }
-                    })
-                    window.location.reload();
-              } catch (error) {
-                console.log(error);
-              }
+                    }
+                )
+                dispatch(setOtherUserDataStatus(true));
+                dispatch(setUserDataStatus(true));
+            } catch (error) {
+            console.log(error);
+            }
         }
     }
 
@@ -254,7 +242,7 @@ const OtherProfilePage = (userData) => {
                         <Username>{user.username}</Username>
                     </MenuItem>
                     <MenuItem>
-                        <EditButton isfollow ={isFollow} onClick={handleFollow} >{isFollow ? "Abonné(e)": "s'abonner"}</EditButton>
+                        <FollowButton isfollow ={isFollow} onClick={handleFollow} >{isFollow ? "Abonné(e)": "s'abonner"}</FollowButton>
                     </MenuItem>
                 </UserInfoContainerRightTop>
 

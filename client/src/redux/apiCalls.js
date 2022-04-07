@@ -2,7 +2,8 @@ import {
   loginFailure, 
   loginStart, 
   loginSuccess,
-  setUserToken
+  setUserToken,
+  setUserDataStatus
 } from "./userRedux";
 import { publicRequest } from "../requestMethods";
 
@@ -12,6 +13,7 @@ export const login = async (dispatch, user) => {
         const res = await publicRequest.post("auth/login", user);
         dispatch(loginSuccess(res.data));
         dispatch(setUserToken(res.data.accessToken));
+        dispatch(setUserDataStatus(true));
 
     } catch (err) {
       dispatch(loginFailure());

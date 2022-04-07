@@ -1,11 +1,10 @@
 import styled from 'styled-components'
 import { AddPhotoAlternateOutlined} from '@material-ui/icons';
 import { useState } from 'react';
-import { useSelector } from "react-redux";
-
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance } from '../../requestMethods';
+import { setUserDataStatus } from '../../redux/userRedux';
 
 const Container = styled.div`
   margin: 30px;
@@ -116,6 +115,7 @@ const FileNameContainer = styled.div`
 `;
 
 const NewPost = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const info = useSelector((state) => state.user.currentUser);
   const token =  useSelector((state) => state.user.currentUserToken);
@@ -142,6 +142,7 @@ const NewPost = () => {
             'content-type': 'multipart/form-data'
           }
         });
+        dispatch(setUserDataStatus(true));
         navigate('/');
         
     } catch (error) {
