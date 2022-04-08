@@ -10,7 +10,7 @@ import {
     Favorite,
     Bookmark
 } from '@material-ui/icons';
-import { API_URL, axiosInstance } from '../../requestMethods.js';
+import { API_URL, axiosInstance, FREE_AVATAR } from '../../requestMethods.js';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Container = styled.div`
@@ -89,7 +89,6 @@ const PostDescription = styled.div`
 const Post = ({post}) => {
     const token =  useSelector((state) => state.user.currentUserToken);
     const currenUser =  useSelector((state) => state.user.currentUser);
-    const [likePost,setLikePost] = useState(false);
     const [savePost,setSavePost] = useState(false);
     const [feedPost,setFeedPost] = useState(post);
     const [numberLike,setNumberLike] = useState(feedPost.numberOfLikes.length)
@@ -133,7 +132,6 @@ const Post = ({post}) => {
         setNumberLike(isLike ? numberLike - 1 : numberLike + 1);
         setIsLike(!isLike);
         if(isLike){
-            setLikePost(true);
             await axiosInstance.put(`posts/removelike/${post._id}`,
                 {"userToRemove": currenUser._id}
             ,
@@ -146,7 +144,6 @@ const Post = ({post}) => {
         setIsLike(!isLike);
         console.log('remove');
         }else{
-            setLikePost(false)
             await axiosInstance.put(`posts/like/${post._id}`,
                 {
                     "numberOfLikes": [
@@ -175,7 +172,7 @@ const Post = ({post}) => {
   return (
     <Container>
         <PostTitleContainer>
-            <PostOwnerImage src={API_URL+"posts/find/"+user.profileImage} />
+            <PostOwnerImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} />
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 

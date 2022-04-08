@@ -15,7 +15,7 @@ import {
  } from '../redux/otherUserRedux.js';
 
 import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
-import { API_URL, axiosInstance, fetchUsers } from '../requestMethods';
+import { API_URL, axiosInstance, fetchUsers, FREE_AVATAR } from '../requestMethods';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
@@ -252,7 +252,7 @@ const OtherProfilePage = () => {
         <Navbar user={curentUser}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={API_URL+'posts/find/'+user.profileImage} alt={user.username}/>
+                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>

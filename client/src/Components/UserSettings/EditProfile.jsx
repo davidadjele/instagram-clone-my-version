@@ -5,7 +5,7 @@ import {
 
 import {mobile} from '../../responsive.js'
 import { useState } from 'react';
-import { API_URL } from '../../requestMethods.js';
+import { API_URL, FREE_AVATAR } from '../../requestMethods.js';
 
 const Container = styled.div`
     display: flex;
@@ -148,7 +148,7 @@ const EditProfile = ({user}) => {
     <Container>
         <UserInfoContainer>
             <UserImageContainer>
-                <UserImage src={API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
+                <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
             </UserImageContainer>
             <UserNameContainer>
                 <UserName>

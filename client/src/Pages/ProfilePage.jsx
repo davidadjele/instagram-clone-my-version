@@ -14,7 +14,7 @@ import {mobile} from '../responsive.js'
 import {
     Link
 } from "react-router-dom";
-import { API_URL, fetchUsers, getUserPosts } from '../requestMethods';
+import { API_URL, fetchUsers, FREE_AVATAR, getUserPosts } from '../requestMethods';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
@@ -213,7 +213,7 @@ const ProfilePage = () => {
         <Navbar user={user}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={API_URL+'posts/find/'+user.profileImage} alt={user.username}/>
+                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>

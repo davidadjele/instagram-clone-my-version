@@ -19,6 +19,8 @@ export const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
+export const FREE_AVATAR = 'https://register.pravasikerala.org/public/images/avatar5.png';
+
 
 export const fetchUsers = async (dispatch,userInfo,token,fonction) => {
 

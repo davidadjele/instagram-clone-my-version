@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { API_URL } from '../requestMethods.js';
+import { API_URL, FREE_AVATAR } from '../requestMethods.js';
 
 import {mobile} from '../responsive.js'
 
@@ -46,7 +46,7 @@ const SideBar = ({user}) => {
   return (
         <SiderBar>
             <UserInfoContainer >
-              <UserImage src={API_URL+"posts/find/"+user.profileImage}/>
+              <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage}/>
               <Username>{user.username}</Username>
             </UserInfoContainer>
             <CopyRightContainer>
