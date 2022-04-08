@@ -6,7 +6,7 @@ import Feed from '../Components/Feed';
 import Navbar from '../Components/Navbar';
 import SideBar from '../Components/SideBar';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
-import { fetchUsers, getUserPosts } from '../requestMethods';
+import { axiosInstance, fetchUsers, getUserPosts } from '../requestMethods';
 
 
 const Container = styled.div`
@@ -19,10 +19,21 @@ const HomePage = () => {
   const token =  useSelector((state) => state.user.currentUserToken);
   const [posts,setPosts] = useState([]);
   useEffect( () => {
+    
       const updateInfo = async () => {
         if(userDataChanged || posts.length === 0) {
-          await getUserPosts(dispatch,setPosts,user,token)
-          
+            try {
+              const res = await axiosInstance.get(
+                `posts/findallimagesv2/${user._id}`,
+                {
+                  headers:  { 
+                    token: `Bearer ${token}`,
+                  }
+                });
+                setPosts(res.data)
+            } catch (error) {
+              console.log(error);
+            }
           await fetchUsers(dispatch,user,token, updateUser)
           
           dispatch(setUserDataStatus(false));

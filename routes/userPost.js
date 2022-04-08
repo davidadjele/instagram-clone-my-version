@@ -15,6 +15,7 @@ const {GridFsStorage} = require('multer-gridfs-storage');
 const mongoose = require('mongoose');
 
 const UserPost = require("../models/UserPost");
+const User = require('../models/User');
 dotenv.config()
 // create storage engine
 const storage = new GridFsStorage({
@@ -80,6 +81,40 @@ router.get('/findallimages/:id',verifyToken,(req, res) => {
         .catch(err => res.status(500).json(err));
 });
 
+//GET ALL USER POST BY AUTHOR ID AND THEIR FOLLOWING USERS POSTS
+router.get('/findallimagesv2/:id',verifyToken, async (req, res) => {
+    
+
+    try {
+        const currentUser = await User.findById(req.params.id);
+        const userPosts = await UserPost.find({ author: currentUser._id });
+        const friendPosts = await Promise.all(
+            currentUser.numberOfFollowing.map((friendId) => {
+                return UserPost.find({ author: friendId });
+            })
+            
+        );
+        
+        const allPost =  userPosts.concat(...friendPosts)
+        allPost.sort((a, b) => a.createdAt > b.createdAt ? -1 : 1)
+        res.status(200).json({images:allPost});
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+
+    
+});
+
+//GET POST BY ID
+router.get('/getpost/:id',verifyToken, async (req, res) => {
+    try {
+        const post = await UserPost.findById(req.params.id);
+        return res.status(200).json(post);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+});
+
 //GET USER SPECIFIC POST 
 router.get('/find/:filename',(req, res, next) => {
     gfs.find({ filename: req.params.filename }).toArray((err, files) => {
@@ -100,6 +135,31 @@ router.get('/find/:filename',(req, res, next) => {
         }
     });
 });
+
+//ADD LIKE WITH POST ID
+router.put('/like/:id',verifyToken, async (req, res) => {
+    try {
+        const updatedPost = await UserPost.updateOne({_id:req.params.id}, {
+            $addToSet:{ numberOfLikes:req.body.numberOfLikes}
+        });
+        return res.status(200).json(updatedPost);
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
+
+//REMOVE LIKE WITH POST ID
+router.put('/removelike/:id',verifyToken, async (req, res) => {
+    
+    try {
+        const updatedPost = await UserPost.updateOne({_id:req.params.id}, {
+            $pull:{ 'numberOfLikes':req.body.userToRemove}
+        });
+        return res.status(200).json(updatedPost);
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
 
 
 //UPDATE Post

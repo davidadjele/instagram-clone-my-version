@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {mobile} from '../../responsive.js'
 
@@ -10,7 +10,8 @@ import {
     Favorite,
     Bookmark
 } from '@material-ui/icons';
-import { API_URL } from '../../requestMethods.js';
+import { API_URL, axiosInstance } from '../../requestMethods.js';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -85,15 +86,77 @@ const PostDescription = styled.div`
     ${mobile({ fontSize: 15})}
 `;
 
-const Post = ({post,user}) => {
+const Post = ({post}) => {
+    const token =  useSelector((state) => state.user.currentUserToken);
+    const currenUser =  useSelector((state) => state.user.currentUser);
     const [likePost,setLikePost] = useState(false);
     const [savePost,setSavePost] = useState(false);
+    const [feedPost,setFeedPost] = useState(post);
+    const [isLike,setIsLike] = useState(false);
+    const [user,setUser] = useState({})
+    useEffect(() => {
+        const updateInfo = async () =>{
+            const res = await axiosInstance.get(
+                `posts/getpost/${post._id}`,
+                {
+                headers:  { 
+                    token: `Bearer ${token}`,
+                }
+            });
+            setFeedPost(res.data)
+        }
+        updateInfo();
+    });
 
-    const handleLikeButton = () => {
+    useEffect(() => {
+        const fetchUser = async () => {
+          const res = await axiosInstance.get(`users/finduser/${post.author}`,
+            {      
+              headers: { 
+                    token: `Bearer ${token}`,
+                }
+            }
+          );
+          setUser(res.data);
+
+          if(feedPost.numberOfLikes.some(item => item === currenUser._id)) {
+                setIsLike(true);
+            }else {
+                setIsLike(false);
+            }
+        };
+        fetchUser();
+    }, [post._id]);
+
+    const handleLikeButton = async () => {
+        setIsLike(!isLike);
         if(likePost){
-            setLikePost(false)
+            setLikePost(false);
+            await axiosInstance.put(`posts/removelike/${post._id}`,
+            {"userToRemove": currenUser._id}
+        ,
+            {
+                headers:  { 
+                    token: `Bearer ${token}`,
+                }
+            }
+        )
+            
         }else{
             setLikePost(true)
+            await axiosInstance.put(`posts/like/${post._id}`,
+                {
+                    "numberOfLikes": [
+                        currenUser._id
+                    ]
+                }
+            ,
+                {
+                    headers:  { 
+                        token: `Bearer ${token}`,
+                    }
+                }
+            )
         }
     }
 
@@ -112,12 +175,12 @@ const Post = ({post,user}) => {
         </PostTitleContainer>
 
         <PostImageContainer>
-            <PostImage src={API_URL+'posts/find/'+post.img} />
+            <PostImage src={API_URL+'posts/find/'+feedPost.img} />
         </PostImageContainer>
 
         <PostButtonsContainer>
             <PostButtonsLeftContainer>
-                {likePost 
+                {isLike 
                     ? <Favorite onClick={handleLikeButton} style={{marginRight:'10',cursor:'pointer'}}/>
                     : <FavoriteBorderOutlined onClick={handleLikeButton}  style={{marginRight:'10',cursor:'pointer'}}/>
                 }
@@ -132,12 +195,12 @@ const Post = ({post,user}) => {
         </PostButtonsContainer>
 
         <PostLikesCountContainer>
-            115 Like
+            {feedPost.numberOfLikes.length} Likes
         </PostLikesCountContainer>
 
         <PostDescriptionContainer>
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
-            <PostDescription> {post.desc}</PostDescription>
+            <PostDescription> {feedPost.desc}</PostDescription>
         </PostDescriptionContainer>
     </Container>
   )

@@ -34,6 +34,10 @@ const UserInfoContainer = styled.div`
 `;
 
 const UserInfoContainerLeft = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
     margin-right: 20px;
 `;
 
@@ -45,6 +49,9 @@ const ImageContainer = styled.img`
 `;
 
 const UserInfoContainerRight = styled.div`
+    display: flex;
+    flex: 2;
+    flex-direction: column;
 `;
 
 const UserInfoContainerRightTop = styled.div`
@@ -67,10 +74,11 @@ const EditButton = styled.button`
 `;
 
 const UserInfoContainerRightMiddle = styled.div`
+    width: 100%;
     display: flex;
     margin-left: 10px;
     margin-top: 4px;
-    ${mobile({ fontSize: 18})}
+    ${mobile({ fontSize: 17})}
 `;
 
 const UserInfoContainerRightBottom = styled.div`
@@ -86,13 +94,24 @@ const Description = styled.p`
 const Location = styled.p`
 `;
 
-const NumberOfPost = styled.p`
+const NumberOfPost = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 20px;
 `;
-const NumberOfFollower= styled.p`
+const NumberOfFollower= styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     margin-right: 20px;
 `;
-const NumberOfFollowing = styled.p`
+const NumberOfFollowing = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 `;
 
 const UserMiddleButton = styled.div`
@@ -136,6 +155,11 @@ const MenuItem = styled.div`
     align-items: center;
     justify-content: center;
     
+`;
+
+const Paragraph = styled.p`
+    font-weight: bold;
+    margin-right: 10px;
 `;
 
 const ProfilePage = () => {
@@ -207,9 +231,9 @@ const ProfilePage = () => {
                 </UserInfoContainerRightTop>
 
                 <UserInfoContainerRightMiddle>
-                    <NumberOfPost>{posts?.images.length} posts</NumberOfPost>
-                    <NumberOfFollower>{user.numberOfFollowers.length} followers</NumberOfFollower>
-                    <NumberOfFollowing>{user.numberOfFollowing.length} following</NumberOfFollowing>
+                    <NumberOfPost><Paragraph>{posts?.images.length}</Paragraph>posts</NumberOfPost>
+                    <NumberOfFollower><Paragraph>{user.numberOfFollowers.length}</Paragraph> followers</NumberOfFollower>
+                    <NumberOfFollowing><Paragraph>{user.numberOfFollowing.length}</Paragraph>  following</NumberOfFollowing>
                 </UserInfoContainerRightMiddle>
 
                 <UserInfoContainerRightBottom>

@@ -6,7 +6,6 @@ const BASE_URL_DEV = "http://localhost:5000/api/";
 
 const user = JSON.parse(localStorage.getItem("persist:root"))?.user;
 const currentUser = user && JSON.parse(user).currentUser;
-const TOKEN = currentUser?.accessToken;
 
 /* Change for BASE_URL in prod and BASE_URL_DEV for dev */
 export const publicRequest = axios.create({
@@ -20,10 +19,6 @@ export const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
-export const userRequest = axios.create({
-  baseURL: BASE_URL,
-  header: { token: `Bearer ${TOKEN}` },
-});
 
 export const fetchUsers = async (dispatch,userInfo,token,fonction) => {
 
