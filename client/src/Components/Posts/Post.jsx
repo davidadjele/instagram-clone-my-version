@@ -106,7 +106,7 @@ const Post = ({post}) => {
             setFeedPost(res.data)
         }
         updateInfo();
-    });
+    },[isLike]);
 
     useEffect(() => {
         const fetchUser = async () => {
