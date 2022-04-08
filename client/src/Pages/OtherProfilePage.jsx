@@ -252,7 +252,7 @@ const OtherProfilePage = () => {
         <Navbar user={curentUser}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
+                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>
