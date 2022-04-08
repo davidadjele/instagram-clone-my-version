@@ -92,6 +92,7 @@ const Post = ({post}) => {
     const [likePost,setLikePost] = useState(false);
     const [savePost,setSavePost] = useState(false);
     const [feedPost,setFeedPost] = useState(post);
+    const [numberLike,setNumberLike] = useState(feedPost.numberOfLikes.length)
     const [isLike,setIsLike] = useState(false);
     const [user,setUser] = useState({})
     useEffect(() => {
@@ -106,7 +107,7 @@ const Post = ({post}) => {
             setFeedPost(res.data)
         }
         updateInfo();
-    },[isLike]);
+    },[post._id]);
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -129,21 +130,23 @@ const Post = ({post}) => {
     }, [post._id]);
 
     const handleLikeButton = async () => {
+        setNumberLike(isLike ? numberLike - 1 : numberLike + 1);
         setIsLike(!isLike);
-        if(likePost){
-            setLikePost(false);
+        if(isLike){
+            setLikePost(true);
             await axiosInstance.put(`posts/removelike/${post._id}`,
-            {"userToRemove": currenUser._id}
-        ,
-            {
-                headers:  { 
-                    token: `Bearer ${token}`,
+                {"userToRemove": currenUser._id}
+            ,
+                {
+                    headers:  { 
+                        token: `Bearer ${token}`,
+                    }
                 }
-            }
-        )
-            
+            )
+        setIsLike(!isLike);
+        console.log('remove');
         }else{
-            setLikePost(true)
+            setLikePost(false)
             await axiosInstance.put(`posts/like/${post._id}`,
                 {
                     "numberOfLikes": [
@@ -157,6 +160,8 @@ const Post = ({post}) => {
                     }
                 }
             )
+            setIsLike(!isLike);
+            console.log('add');
         }
     }
 
@@ -195,7 +200,7 @@ const Post = ({post}) => {
         </PostButtonsContainer>
 
         <PostLikesCountContainer>
-            {feedPost.numberOfLikes.length} Likes
+            {numberLike} Likes
         </PostLikesCountContainer>
 
         <PostDescriptionContainer>
