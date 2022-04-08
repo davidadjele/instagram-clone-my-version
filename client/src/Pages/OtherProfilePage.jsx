@@ -267,7 +267,7 @@ const OtherProfilePage = () => {
                 </UserInfoContainerRightTop>
 
                 <UserInfoContainerRightMiddle>
-                    <NumberOfPost><Paragraph>{userPost.images.length}</Paragraph> posts</NumberOfPost>
+                    <NumberOfPost><Paragraph>{userPost?.images.length}</Paragraph> posts</NumberOfPost>
                     <NumberOfFollower><Paragraph>{user.numberOfFollowers.length}</Paragraph> followers</NumberOfFollower>
                     <NumberOfFollowing><Paragraph>{user.numberOfFollowing.length}</Paragraph> following</NumberOfFollowing>
                 </UserInfoContainerRightMiddle>
@@ -287,7 +287,7 @@ const OtherProfilePage = () => {
                 <Post>Posts</Post>
             </UserMiddlePostButton>
         </UserMiddleButton>
-        <OtherUserPosts posts={userPost}/>
+        {userPost && <OtherUserPosts posts={userPost}/>}
         <BottomMobileBar/>
     </Container>
   )

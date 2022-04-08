@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import {mobile} from '../../responsive.js'
 import { Favorite, ModeComment} from '@material-ui/icons';
-import { useEffect } from 'react';
 import { API_URL } from '../../requestMethods.js';
 
 const InfoContainer = styled.div`

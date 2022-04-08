@@ -11,7 +11,7 @@ import {
     Bookmark
 } from '@material-ui/icons';
 import { API_URL, axiosInstance, FREE_AVATAR } from '../../requestMethods.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -172,7 +172,7 @@ const Post = ({post}) => {
   return (
     <Container>
         <PostTitleContainer>
-            <PostOwnerImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} />
+            <PostOwnerImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} />
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 

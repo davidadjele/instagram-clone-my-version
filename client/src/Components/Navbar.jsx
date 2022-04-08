@@ -254,7 +254,7 @@ const Navbar = ({user}) => {
                     {!activeAddButton && <AddBoxOutlined style={{cursor:'pointer',fontSize:'40px'}}/>}
                 </MenuItem>
                 <MenuItem onClick={handleActiveProfile} >
-                    <Image src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} />
+                    <Image src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} />
                 </MenuItem>
             </Right>
         </Wrapper>

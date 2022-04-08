@@ -2,10 +2,7 @@ import styled from 'styled-components'
 import {
   useNavigate
 } from "react-router-dom";
-
-import {mobile} from '../../responsive.js'
-import { useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { 
   logout
 } from "../../redux/userRedux.js";
@@ -41,7 +38,6 @@ const Link = styled.a`
 const Help = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const delay = ms => new Promise(res => setTimeout(res, ms));
   const handleLogout = async (e) => {
     e.preventDefault();
     dispatch(logout());

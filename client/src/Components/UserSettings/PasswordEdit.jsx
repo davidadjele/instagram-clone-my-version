@@ -129,7 +129,7 @@ const PasswordEdit = ({user}) => {
     <Container>
         <UserInfoContainer>
             <UserImageContainer>
-                <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage}/>
+                <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage}/>
             </UserImageContainer>
             <UserNameContainer>
                 <UserName>

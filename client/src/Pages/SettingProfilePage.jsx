@@ -1,8 +1,4 @@
 import styled from 'styled-components'
-import {
-    Link
-} from "react-router-dom";
-
 import {mobile} from '../responsive.js'
 import Navbar from '../Components/Navbar.jsx';
 import EditProfile from '../Components/UserSettings/EditProfile.jsx';

@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
         numberOfFollowing: [{type: Schema.Types.ObjectId, ref: 'User'}],
         bio:{type:String,default:''},
         location:{type:String,default:''},
-        profileImage:{ data: Buffer, contentType: String,default:'' },
+        profileImage:{type:String,default:''},
         gender:{type:String,default:''},
         isAdmin: {
             type:Boolean,

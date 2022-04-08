@@ -6,7 +6,7 @@ import Feed from '../Components/Feed';
 import Navbar from '../Components/Navbar';
 import SideBar from '../Components/SideBar';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
-import { axiosInstance, fetchUsers, getUserPosts } from '../requestMethods';
+import { axiosInstance, fetchUsers } from '../requestMethods';
 
 
 const Container = styled.div`

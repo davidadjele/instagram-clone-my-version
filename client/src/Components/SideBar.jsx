@@ -46,7 +46,7 @@ const SideBar = ({user}) => {
   return (
         <SiderBar>
             <UserInfoContainer >
-              <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage}/>
+              <UserImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage}/>
               <Username>{user.username}</Username>
             </UserInfoContainer>
             <CopyRightContainer>

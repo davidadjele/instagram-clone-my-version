@@ -1,11 +1,52 @@
 const {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin} = require('./verifyToken');
 const router = require('express').Router();
 const CryptoJS = require('crypto-js')
+const multer = require("multer");
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+const dotenv = require('dotenv');
 
+const {GridFsStorage} = require('multer-gridfs-storage');
+const mongoose = require('mongoose');
+dotenv.config()
 const User = require('../models/User');
 
+// create storage engine
+const storage = new GridFsStorage({
+    url: process.env.MONGO_URL,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(16, (err, buf) => {
+                if (err) {
+                    return reject(err);
+                }
+                const filename = buf.toString('hex') + path.extname(file.originalname);
+                const fileInfo = {
+                    filename: filename,
+                    bucketName: 'profilesImages'
+                };
+                resolve(fileInfo);
+            });
+        });
+    }
+});
+
+const upload = multer({ storage });
+
+const connect = mongoose.createConnection(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+
+let gfs;
+
+connect.once('open', () => {
+    // initialize stream
+    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+        bucketName: "profilesImages"
+    });
+});
+
 //UPDATE USER INFO
-router.put('/:id',verifyTokenAndAuthorization, async (req, res) => {
+router.put('/:id',verifyToken,upload.single('profileImage'), async (req, res) => {
     
     /* tokenisé le mot de pass avant de changer */
     if(req.body.password){
@@ -27,7 +68,7 @@ router.put('/:id',verifyTokenAndAuthorization, async (req, res) => {
                     email: req.body.email,
                     bio: req.body.bio,
                     location: req.body.location,
-                    profileImage: req.body.profileImage,
+                    profileImage: req.file.filename,
                     gender: req.body.gender,
                     password: req.body.password,
                 }
@@ -41,6 +82,28 @@ router.put('/:id',verifyTokenAndAuthorization, async (req, res) => {
         return res.status(500).json(error)
     }
 })
+
+
+//GET USER SPECIFIC POST 
+router.get('/find/:filename',(req, res, next) => {
+    gfs.find({ filename: req.params.filename }).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+            return res.status(200).json({
+                success: false,
+                message: 'No files available',
+            });
+        }
+
+        if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/svg+xml') {
+            // render image to browser
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        } else {
+            res.status(404).json({
+                err: 'Not an image',
+            });
+        }
+    });
+});
 
 //ADD NEW ONE USER FOLLOWERS 
 router.put('/addfollowers/:id',verifyToken, async (req, res) => {

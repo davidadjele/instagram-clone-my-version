@@ -213,7 +213,7 @@ const ProfilePage = () => {
         <Navbar user={user}/>
         <UserInfoContainer>
             <UserInfoContainerLeft>
-                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"posts/find/"+user.profileImage} alt={user.username}/>
+                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} alt={user.username}/>
             </UserInfoContainerLeft>
             
             <UserInfoContainerRight>
@@ -241,9 +241,9 @@ const ProfilePage = () => {
                 </UserInfoContainerRightMiddle>
 
                 <UserInfoContainerRightBottom>
-                    <Surname>{user.name} 🇹🇬</Surname>
+                    <Surname>{user.name}</Surname>
                     <Description>{user.bio}</Description>
-                    <Location>📍{user.location}</Location>
+                    <Location>{user.location}</Location>
                 </UserInfoContainerRightBottom>
 
             </UserInfoContainerRight>

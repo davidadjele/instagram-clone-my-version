@@ -66,8 +66,13 @@ const Agreement = styled.span`
 
 const Error = styled.span`
   color: red;
+  text-align: center;
+  justify-content: center;
 `;
 
+const Success = styled.span`
+  color: #9bdd90;
+`;
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -77,12 +82,14 @@ const RegisterPage = () => {
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [accountCreated,setAccountCreated] = useState(false);
-    const [noValidPassword,setnoValidPassword] = useState(false);
+    const [validPassword,setValidPassword] = useState(true);
+    const [error,setError] = useState(false);
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setnoValidPassword(false);
         if (password === passwordConfirm && password !== '' && password !== '') {
+            setValidPassword(true);
+            setError(false)
             try {
                 await axiosInstance.post("auth/register", 
                     {
@@ -94,10 +101,12 @@ const RegisterPage = () => {
                 );
                 setAccountCreated(true);
             } catch (err) {
+                setError(true)
+                setAccountCreated(false);
                 console.log(err);
             }
         }else {
-            setnoValidPassword(true);
+            setValidPassword(false);
         }
 
     }
@@ -121,8 +130,9 @@ const RegisterPage = () => {
                     data in accordance with the <b>PRIVACY POLICY</b>
                 </Agreement>
                 <Button onClick={handleRegister} >CREATE</Button>
-                {accountCreated && <Error>Something went wrong...</Error>}
-                {noValidPassword && <Error>You need to use same password</Error>}
+                {accountCreated && <Success>Account created! Go to Login Page</Success>}
+                {!validPassword && <Error>You need to use same password</Error>}
+                {error && <Error>Error when creating your account. Try again!</Error>}
                 <Link onClick={handleLoginPage} >GO TO LOGIN PAGE</Link>
             </Form>
         </Wrapper>
