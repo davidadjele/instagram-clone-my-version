@@ -39,6 +39,7 @@ const UserInfoContainerLeft = styled.div`
     align-items: center;
     flex: 1;
     margin-right: 20px;
+    ${mobile({ marginBottom: 20})}
 `;
 
 const ImageContainer = styled.img`
@@ -62,6 +63,7 @@ const UserInfoContainerRightTop = styled.div`
 const Username = styled.p`
     margin-left: 10px;
     margin-right: 25px;
+    font-weight: bold;
     ${mobile({ fontSize: 20})}
 `;
 
@@ -70,7 +72,9 @@ const EditButton = styled.button`
     background: none;
     border: .5px solid black;
     border-radius: 5px;
+    color: black;
     cursor: pointer;
+    ${mobile({ fontSize: 20})}
 `;
 
 const UserInfoContainerRightMiddle = styled.div`

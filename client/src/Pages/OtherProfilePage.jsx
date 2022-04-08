@@ -39,6 +39,7 @@ const UserInfoContainerLeft = styled.div`
     align-items: center;
     flex: 1;
     margin-right: 20px;
+    ${mobile({ marginBottom: 20})}
 `;
 
 const ImageContainer = styled.img`
@@ -62,6 +63,7 @@ const UserInfoContainerRightTop = styled.div`
 const Username = styled.p`
     margin-left: 10px;
     margin-right: 25px;
+    font-weight: bold;
     ${mobile({ fontSize: 20})}
 `;
 
@@ -70,6 +72,8 @@ const FollowButton = styled.button`
     border: .5px solid black;
     border-radius: 5px;
     cursor: pointer;
+    cursor: pointer;
+    ${mobile({ fontSize: 20})}
     background: ${(props) => props.isfollow ? 'none': 'black'};
     color: ${(props) => props.isfollow ? 'black': 'white'};
 `;
