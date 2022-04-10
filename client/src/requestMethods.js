@@ -9,14 +9,14 @@ const currentUser = user && JSON.parse(user).currentUser; */
 
 /* Change for BASE_URL in prod and BASE_URL_DEV for dev */
 export const publicRequest = axios.create({
-  baseURL: BASE_URL_DEV,
+  baseURL: BASE_URL,
 });
 
-export const API_URL = BASE_URL_DEV;
+export const API_URL = BASE_URL;
 
-/* Change for BASE_URL in prod and BASE_URL_DEV for dev */
+/* Change for BASE_URL xin prod and BASE_URL_DEV for dev */
 export const axiosInstance = axios.create({
-  baseURL: BASE_URL_DEV,
+  baseURL: BASE_URL,
 });
 
 export const FREE_AVATAR = 'https://register.pravasikerala.org/public/images/avatar5.png';
