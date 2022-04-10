@@ -230,7 +230,7 @@ router.get("/search/:username", verifyToken, async (req, res) => {
         }
         const users = await User
                 .find({
-                    username: { $gte: req.params.username}
+                    username: { $regex: '^'+req.params.username}
                 });
                 
         return res.status(200).json(users);

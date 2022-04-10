@@ -30,11 +30,11 @@ const App = () => {
               : <Navigate to='/login'/>
             }
           />
-          <Route path='/profil' element={<ProfilePage/>}/>
+          <Route path='/profil' element={user ? <ProfilePage/> : <Navigate to='/login'/>}/>
           <Route path='/settings' element={user ? <SettingProfilePage user={user} /> : <Navigate to='/login'/>} />
           <Route path='/newpost' element={user ? <CreatePostPage user={user} /> : <Navigate to='/login'/>}/>
           <Route path='/message' element={user ? <MessagePage user={user} />: <Navigate to='/login'/>}/>
-          <Route path='/visitprofil' element={<OtherProfilePage />}/>
+          <Route path='/visitprofil' element={ user ? <OtherProfilePage /> : <Navigate to='/login'/>}/>
           <Route  
             path='/login' 
             element={user 

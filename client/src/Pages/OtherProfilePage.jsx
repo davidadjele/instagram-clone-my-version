@@ -167,6 +167,7 @@ const OtherProfilePage = () => {
             if(OtherUserDataChanged) {
                 await fetchUsers(dispatch,user,token,setOtherUser);
                 await fetchUsers(dispatch,curentUser,token, updateUser)
+                //TODO get current user post update also
                 await getOtherUserPosts(dispatch,user,token)
                 dispatch(setOtherUserDataStatus(false));
             }

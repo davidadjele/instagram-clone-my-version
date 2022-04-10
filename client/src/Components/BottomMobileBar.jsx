@@ -56,7 +56,7 @@ const SearchResultContainer = styled.div`
     width: 300px;
     height: auto;
     position: fixed;
-    border: .5px solid #d6d4d4;
+    border: .5px solid #c2b8b8;
     background-color: white;
     transform:translate(-50%,-30%);
     bottom:30%;
@@ -70,6 +70,9 @@ const Input = styled.input`
     color:  gray;
     border-bottom: 0.5px solid #cecbcb;
     transition: all 1s ease-in-out;
+    &:focus{
+        border-bottom: 0.7px solid #000;
+    }
 `;
 
 
@@ -104,7 +107,7 @@ const Result = styled.div`
     padding: 3px;
     margin: 4px;
     cursor: pointer;
-    border-bottom: 0.5px solid #cecbcb;
+    border-bottom: 0.5px solid #ddd3d3;
 `;
 
 
@@ -120,6 +123,10 @@ const BottomMobileBar = () => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
+            if(search === '') {
+                setUsers(null);
+                return;
+            }
             const res = await axiosInstance.get(
                 `users/search/${search}`,
                 {
@@ -144,7 +151,7 @@ const BottomMobileBar = () => {
             <Center>
                 <Input placeholder="Search" onChange={(e) => {setSearch(e.target.value)}} />
                 <SearchOutlined 
-                    style={{color:'gray',fontSize:20,cursor:'pointer'}} 
+                    style={{color:'black',fontSize:20,cursor:'pointer'}} 
                     onClick={fetchUsers}
                 />
             </Center>
@@ -152,7 +159,7 @@ const BottomMobileBar = () => {
                 <SearchResultContainer>
                     {loading?
                         <Loading/>
-                        : users.map((item) => 
+                        : users?.map((item) => 
                             (<Result key={item.id} onClick={async ()=>{
                                 try {
                                     dispatch( setOtherUser(item) );
