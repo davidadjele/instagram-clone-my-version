@@ -34,7 +34,7 @@ const Container = styled.div`
     left: 50%;
     width: auto;
     height: auto;
-    z-index: 3;
+    z-index: 5;
     animation: ${modal} 1s ease 0s 1 normal forwards;
   ${mobile({ width: '95%'})}
 `;
