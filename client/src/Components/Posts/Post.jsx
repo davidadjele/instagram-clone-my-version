@@ -95,19 +95,6 @@ const Post = ({post,height}) => {
     const [numberLike,setNumberLike] = useState(post.numberOfLikes.length)
     const [isLike,setIsLike] = useState(false);
     const [user,setUser] = useState({})
-    /* useEffect(() => {
-        const updateInfo = async () =>{
-            const res = await axiosInstance.get(
-                `posts/getpost/${post._id}`,
-                {
-                headers:  { 
-                    token: `Bearer ${token}`,
-                }
-            });
-            setFeedPost(res.data)
-        }
-        updateInfo();
-    },[post._id]); */
 
     useEffect(() => {
         const fetchUser = async () => {

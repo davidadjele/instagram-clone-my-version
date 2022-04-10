@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-import { keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { 
     useNavigate
 } from "react-router-dom";
@@ -229,7 +228,10 @@ const Navbar = ({user}) => {
                                     console.log(error);
                                 }
                                     
-                                }}><span>{item.username}</span></Result>
+                                }}
+                            >
+                            {item.username}
+                            </Result>
                             )
                         ) 
                          

@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-import { keyframes } from 'styled-components'
+import styled,{ keyframes } from 'styled-components'
 import { 
     useNavigate
 } from "react-router-dom";
@@ -71,9 +70,6 @@ const Input = styled.input`
     color:  gray;
     border-bottom: 0.5px solid #cecbcb;
     transition: all 1s ease-in-out;
-    &:focus{
-        border-bottom: 0.7px solid #000;
-    }
 `;
 
 
