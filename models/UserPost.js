@@ -9,7 +9,8 @@ const UserPostSchema = new mongoose.Schema(
         numberOfLikes: [{type: Schema.Types.ObjectId, ref: 'User'}],
         comments: [
             {
-                
+                commentOwnerId: {type: Schema.Types.ObjectId, ref: 'User' },
+                comment: {type: String}
             }
         ]
     }, 
