@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
-
+position: relative;
 `;
 
 const UserInfoContainer = styled.div`

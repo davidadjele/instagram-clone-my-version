@@ -11,7 +11,8 @@ import {
     Bookmark
 } from '@material-ui/icons';
 import { API_URL, axiosInstance, FREE_AVATAR } from '../../requestMethods.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserDataStatus } from '../../redux/userRedux.js';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -46,14 +47,14 @@ const PostOwnerUsername = styled.span`
 `;
 
 const PostImageContainer = styled.div`
-    height: auto;  
-    ${mobile({ height: 'auto'})}
+    height: ${(props) => props.height ? '400px': 'auto'};  
+    
 `;
 
 const PostImage = styled.img`
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: ${(props) => props.height ? 'contain': 'cover'};
 `;
 
 
@@ -86,15 +87,15 @@ const PostDescription = styled.div`
     ${mobile({ fontSize: 15})}
 `;
 
-const Post = ({post}) => {
+const Post = ({post,height}) => {
+    const dispatch = useDispatch()
     const token =  useSelector((state) => state.user.currentUserToken);
     const currenUser =  useSelector((state) => state.user.currentUser);
     const [savePost,setSavePost] = useState(false);
-    const [feedPost,setFeedPost] = useState(post);
-    const [numberLike,setNumberLike] = useState(feedPost.numberOfLikes.length)
+    const [numberLike,setNumberLike] = useState(post.numberOfLikes.length)
     const [isLike,setIsLike] = useState(false);
     const [user,setUser] = useState({})
-    useEffect(() => {
+    /* useEffect(() => {
         const updateInfo = async () =>{
             const res = await axiosInstance.get(
                 `posts/getpost/${post._id}`,
@@ -106,7 +107,7 @@ const Post = ({post}) => {
             setFeedPost(res.data)
         }
         updateInfo();
-    },[post._id]);
+    },[post._id]); */
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -119,7 +120,7 @@ const Post = ({post}) => {
           );
           setUser(res.data);
 
-          if(feedPost.numberOfLikes.some(item => item === currenUser._id)) {
+          if(post.numberOfLikes.some(item => item === currenUser._id)) {
                 setIsLike(true);
             }else {
                 setIsLike(false);
@@ -142,7 +143,7 @@ const Post = ({post}) => {
                 }
             )
         setIsLike(!isLike);
-        console.log('remove');
+        dispatch(setUserDataStatus(true));
         }else{
             await axiosInstance.put(`posts/like/${post._id}`,
                 {
@@ -158,7 +159,7 @@ const Post = ({post}) => {
                 }
             )
             setIsLike(!isLike);
-            console.log('add');
+            dispatch(setUserDataStatus(true));
         }
     }
 
@@ -176,8 +177,8 @@ const Post = ({post}) => {
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 
-        <PostImageContainer>
-            <PostImage src={API_URL+'posts/find/'+feedPost.img} />
+        <PostImageContainer height={height}>
+            <PostImage height={height} src={API_URL+'posts/find/'+post.img} />
         </PostImageContainer>
 
         <PostButtonsContainer>
@@ -202,7 +203,7 @@ const Post = ({post}) => {
 
         <PostDescriptionContainer>
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
-            <PostDescription> {feedPost.desc}</PostDescription>
+            <PostDescription> {post.desc}</PostDescription>
         </PostDescriptionContainer>
     </Container>
   )
