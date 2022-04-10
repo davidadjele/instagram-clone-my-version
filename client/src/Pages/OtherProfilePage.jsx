@@ -18,6 +18,7 @@ import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
     position: relative;
+    margin-bottom: 8vh;
 `;
 
 const UserInfoContainer = styled.div`

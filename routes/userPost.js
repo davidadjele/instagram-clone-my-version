@@ -136,6 +136,32 @@ router.get('/find/:filename',(req, res, next) => {
     });
 });
 
+/*
+        GET: Delete an image from the collection
+        624bb81108ac0c2aecfb6554
+*/
+router.get('/delete/:id',verifyToken,(req, res) => {
+    UserPost.findOne({ _id: req.params.id })
+        .then((image) => {
+            if (image) {
+                UserPost.deleteOne({ _id: req.params.id })
+                    .then(() => {
+                        return res.status(200).json({
+                            success: true,
+                            message: `File with ID: ${req.params.id} deleted`,
+                        });
+                    })
+                    .catch(err => { return res.status(500).json(err) });
+            } else {
+                res.status(200).json({
+                    success: false,
+                    message: `File with ID: ${req.params.id} not found`,
+                });
+            }
+        })
+        .catch(err => res.status(500).json(err));
+});
+
 //ADD LIKE WITH POST ID
 router.put('/like/:id',verifyToken, async (req, res) => {
     try {

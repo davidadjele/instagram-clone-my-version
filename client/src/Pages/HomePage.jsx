@@ -10,6 +10,7 @@ import { axiosInstance, fetchUsers } from '../requestMethods';
 
 
 const Container = styled.div`
+margin-bottom: 8vh;
 `;
 
 const HomePage = () => {
