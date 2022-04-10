@@ -103,7 +103,7 @@ const LoginPage = () => {
                 <Button onClick={handleClick} disabled={isFetching}>
                     LOGIN
                 </Button>
-                {error && <Error>Something went wrong...</Error>}
+                {error && <Error>Username or password is invalid!</Error>}
                 <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
                 <Link onClick={handleCreateAccount} >CREATE A NEW ACCOUNT</Link>
             </Form>

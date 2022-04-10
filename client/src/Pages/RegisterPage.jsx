@@ -41,7 +41,8 @@ const Input = styled.input`
     margin: 10px 0;
     padding: 10px;
     border: none;
-    border-bottom: 0.5px solid #d6d4d4!important;;
+    border-bottom: 0.5px solid #d6d4d4!important;
+    ${mobile({ fontSize: 15})}
 `;
 
 const Button = styled.button`
