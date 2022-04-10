@@ -2,6 +2,9 @@ import styled from 'styled-components'
 import {mobile} from '../../responsive.js'
 import { Favorite, ModeComment} from '@material-ui/icons';
 import { API_URL } from '../../requestMethods.js';
+import { useState } from 'react';
+
+import Modal from '../Modal';
 
 const InfoContainer = styled.div`
     background-color: rgba(0, 0, 0, 0.2);
@@ -45,24 +48,31 @@ const UserPostImage = styled.img`
 
 
 const Icon = styled.div`
+     display: flex;
+    flex-direction: column;
     margin-right: 10px;
+    align-items: center;
 `;
 
 const OtherUserPost = ({post}) => {
+    const [modalIsOpen, setIsOpen] = useState(false);
+    const openModal = () => {
+        setIsOpen(true);
+    }
   return (
     <Container>
         <Wrapper>
             <UserPostImage src={API_URL+'posts/find/'+post.img} />
-            <InfoContainer>
+            <InfoContainer onClick={openModal} >
                 <Icon>
-                    <Favorite/>
+                    {post.numberOfLikes.length} <Favorite/>
                 </Icon>
                 <Icon>
-                    <ModeComment/>
+                   0 <ModeComment/>
                 </Icon>
             </InfoContainer>
         </Wrapper>
-        
+        {modalIsOpen && <Modal closeModal={setIsOpen} post={post} />}
     </Container>
   )
 }
