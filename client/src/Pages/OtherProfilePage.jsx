@@ -1,8 +1,6 @@
 import { GridOnOutlined } from '@material-ui/icons';
 import { useEffect, useState } from 'react';
 
-import "./ProfilePage.css"
-
 import styled from 'styled-components'
 import Navbar from '../Components/Navbar';
 import BottomMobileBar from '../Components/BottomMobileBar';
