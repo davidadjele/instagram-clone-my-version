@@ -26,7 +26,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 24px;
+    font-weight: bold;
+`;
+
+const SubTitle = styled.h3`
     font-weight: bold;
 `;
 
@@ -92,7 +95,8 @@ const LoginPage = () => {
   return (
     <Container>
         <Wrapper>
-            <Title>SIGN IN</Title>
+            <Title>ConnectPlace</Title>
+            <SubTitle>Sign In</SubTitle>
             <Form>
                 <Input placeholder="username" onChange={(e) => setUsername(e.target.value)}/>
                 <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}/>

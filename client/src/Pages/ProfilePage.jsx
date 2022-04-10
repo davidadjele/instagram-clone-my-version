@@ -221,12 +221,12 @@ const ProfilePage = () => {
                     <MenuItem>
                         <Username>{user.username}</Username>
                     </MenuItem>
-                    <Link to="/settings" style={{textDecoration:'none',color:'black'}} >
+                    <Link to={"/settings/"+user.username} style={{textDecoration:'none',color:'black'}} >
                         <MenuItem>
                             <EditButton>Edit Profile</EditButton>
                         </MenuItem>
                     </Link>
-                    <Link to="/settings" style={{color:'black'}} >
+                    <Link to={"/settings/"+user.username} style={{color:'black'}} >
                         <MenuItem>
                             <SettingsOutlined user={user} style={{cursor:'pointer'}}/>
                         </MenuItem>

@@ -21,7 +21,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-    font-size: 24px;
+    font-weight: bold;
+`;
+
+const SubTitle = styled.h3`
     font-weight: bold;
 `;
 
@@ -117,13 +120,14 @@ const RegisterPage = () => {
   return (
     <Container>
         <Wrapper>
-            <Title>CREATE AN ACCOUNT</Title>
+            <Title>ConnectPlace</Title>
+            <SubTitle>Create an Account</SubTitle>
             <Form>
-                <Input placeholder="name" onChange={(e) => setName(e.target.value)} />
-                <Input placeholder="username" onChange={(e) => setUsername(e.target.value)} />
+                <Input placeholder="name" onChange={(e) => setName(e.target.value)}/>
+                <Input placeholder="username" onChange={(e) => setUsername(e.target.value)}/>
                 <Input placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-                <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)} />
-                <Input type="password" placeholder="confirm password" onChange={(e) => setPasswordConfirm(e.target.value)} />
+                <Input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}/>
+                <Input type="password" placeholder="confirm password" onChange={(e) => setPasswordConfirm(e.target.value)}/>
 
                 <Agreement>
                     By creating an account, I consent to the processing of my personal

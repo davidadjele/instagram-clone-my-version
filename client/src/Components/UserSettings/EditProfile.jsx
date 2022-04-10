@@ -63,6 +63,7 @@ const UserNameContainer = styled.div`
 `
 ;const UserName = styled.span`
     font-weight: bold;
+    ${mobile({ fontSize: 12 })}
 `;
 
 const FieldContainer = styled.div`
@@ -91,7 +92,7 @@ const Input = styled.input`
     border-bottom: 0.6px solid black;
     border-radius: 3px;
 
-    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px'})}
+    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px',fontSize: 12 })}
 `;
 
 const TextArea = styled.textarea`
@@ -100,7 +101,8 @@ const TextArea = styled.textarea`
     border: none;
     border-bottom: 0.6px solid black;
     border-radius: 3px;
-    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px'})}
+    
+    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px',fontSize:12})}
 `;
 
 const SubmitButtonContainer = styled.div`
@@ -115,14 +117,16 @@ const SubmitButton= styled.button`
     cursor: pointer;
     border: .5px solid #cecbcb;
     border-radius: 3px;
-    background-color: #dbe2e9;
+    color: white;
+    background-color: #0f1011;
     padding: 15px;
-    ${mobile({ width: '70%',padding:'5px'})}
+    ${mobile({ width: '50%',padding:'5px'})}
 `;
 const Form = styled.form`
 `;
 const Label = styled.label`
     font-weight: bold;
+    ${mobile({ fontSize: 12 })}
 `;
 
 
@@ -136,7 +140,7 @@ const LabelFile = styled.label`
     border-radius: 3px;
     cursor: pointer;
     margin-bottom: 5px;
-    ${mobile({ fontSize: 13})}
+    ${mobile({ fontSize: 12})}
 `;
 
 const FileInput = styled.input`
@@ -183,7 +187,7 @@ const EditProfile = ({user}) => {
                 }
               });
               dispatch(setUserDataStatus(true));
-              navigate('/profil')
+              navigate(`/profil/${user.username}`)
           } catch (error) {
             console.log(error);
           }

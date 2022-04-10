@@ -98,7 +98,7 @@ const Modal = ({closeModal,post}) => {
                     }
                 });
               dispatch(setUserDataStatus(true))
-              navigate('/profil')
+              navigate(`/profil/${currenUser.username}`)
         } catch (error) {
             console.log(error);
         }

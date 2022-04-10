@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     margin: 40px;
     border: 1px solid #e2e2e2;
     border-radius: 10px;
-    ${mobile({ flexDirection: 'column',fontSize:15})}
+    ${mobile({ flexDirection: 'column',fontSize:15, margin: '10px'})}
 `;
 
 const ContainerRight = styled.div`

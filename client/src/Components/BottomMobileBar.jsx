@@ -163,7 +163,7 @@ const BottomMobileBar = () => {
                             (<Result key={item.id} onClick={async ()=>{
                                 try {
                                     dispatch( setOtherUser(item) );
-                                    navigate('/visitprofil');
+                                    navigate('/visitprofil/'+item.username);
                                     const res = await axiosInstance.get(
                                         `posts/findallimages/${item._id}`,
                                         {

@@ -53,6 +53,8 @@ const UserNameContainer = styled.div`
     justify-content: flex-start;
 `
 ;const UserName = styled.span`
+    font-weight: bold;
+    ${mobile({ fontSize: 12 })}
 `;
 
 const FieldContainer = styled.div`
@@ -69,9 +71,10 @@ const InputContainer = styled.div`
     height: 50px;
     align-items: center;
     justify-content: flex-start;
-    ${mobile({ justifyContent: 'center'})}
+    ${mobile({ justifyContent: 'center',fontSize: 12 })}
 `;
 const Field = styled.h4`
+    ${mobile({ fontSize: 12 })}
 `;
 
 const Input = styled.input`
@@ -81,7 +84,7 @@ const Input = styled.input`
     border-bottom: 0.6px solid black;
     border-radius: 3px;
 
-    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px'})}
+    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px',fontSize: 12 })}
 `;
 
 const SubmitButtonContainer = styled.div`
@@ -98,9 +101,10 @@ const SubmitButton= styled.button`
     cursor: pointer;
     border: .5px solid #cecbcb;
     border-radius: 3px;
-    background-color: #dbe2e9;
+    color: white;
+    background-color: #0f1011;
     padding: 15px;
-    ${mobile({ width: '70%',padding:'5px'})}
+    ${mobile({ width: '50%',padding:'5px'})}
 `;
 
 
