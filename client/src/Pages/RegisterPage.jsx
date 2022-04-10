@@ -93,7 +93,7 @@ const RegisterPage = () => {
             try {
                 await axiosInstance.post("auth/register", 
                     {
-                        username: username,
+                        username: username.toLowerCase(),
                         name: name,
                         email: email,
                         password: password

@@ -200,7 +200,7 @@ const Navbar = ({user}) => {
                 <Logo>ConnectPlace</Logo>
             </Left>
             <Center>
-                <Input placeholder="Search" onChange={(e) => setSearch(e.target.value.toLowerCase())} />
+                <Input placeholder="Search" onChange={(e) => setSearch(e.target.value)} />
                 <SearchOutlined 
                     style={{color:'gray',fontSize:20,cursor:'pointer'}} 
                     onClick={fetchUsers}
