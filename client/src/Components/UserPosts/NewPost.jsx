@@ -62,7 +62,8 @@ const UploadButton = styled.button`
   border: .5px solid #cecbcb;
   border-radius: 3px;
   width: 150px;
-  background-color: #dbe2e9;
+  color: white;
+  background-color: #121213;
   padding: 5px;
 `;
 
@@ -160,19 +161,18 @@ const NewPost = () => {
           <CaptionContainer>
               <CaptionFieldContainer>
                 <CaptionName>
-                  <label htmlFor="desc">Image Description</label>
+                  <label htmlFor="desc">Caption</label>
                 </CaptionName>
               </CaptionFieldContainer>  
               <CaptionInputContainer>
                   <CaptionInput id="desc" name="desc" rows="2" 
-                            placeholder="Description" required
-                  >
-                  </CaptionInput>
+                            placeholder="post caption..." required
+                  />
               </CaptionInputContainer>
           </CaptionContainer> 
               <FormDiv>
                   <InputLabel htmlFor="image">
-                    Upload Image <AddPhotoAlternateOutlined/>
+                    Choose image <AddPhotoAlternateOutlined/>
                   </InputLabel>
                   <Input type="file" id="image" 
                         name="image"  required 
@@ -181,7 +181,7 @@ const NewPost = () => {
                   {filename &&<FileNameContainer> <span>{filename.name}</span></FileNameContainer>}
               </FormDiv>
               <FormDiv>
-                  <UploadButton type="submit">Submit</UploadButton>
+                  <UploadButton type="submit">Share</UploadButton>
               </FormDiv>
           </Form>
       </UploadAndInputFileButtonContainer>   

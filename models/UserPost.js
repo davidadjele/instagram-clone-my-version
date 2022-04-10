@@ -7,6 +7,11 @@ const UserPostSchema = new mongoose.Schema(
         img:{type:String, require: true},
         desc:{type:String},
         numberOfLikes: [{type: Schema.Types.ObjectId, ref: 'User'}],
+        comments: [
+            {
+                
+            }
+        ]
     }, 
     {timestamps:true}
 );
