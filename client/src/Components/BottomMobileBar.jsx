@@ -149,7 +149,7 @@ const BottomMobileBar = () => {
     <Container>
         <Wrapper>
             <Center>
-                <Input placeholder="Search" onChange={(e) => {setSearch(e.target.value)}} />
+                <Input placeholder="Search" onChange={(e) => {setSearch(e.target.value.toLowerCase())}} />
                 <SearchOutlined 
                     style={{color:'black',fontSize:20,cursor:'pointer'}} 
                     onClick={fetchUsers}
