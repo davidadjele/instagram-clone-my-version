@@ -13,6 +13,7 @@ import {
 import { API_URL, axiosInstance, FREE_AVATAR } from '../../requestMethods.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDataStatus } from '../../redux/userRedux.js';
+import { setOtherUserDataStatus } from '../../redux/otherUserRedux.js';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -95,19 +96,20 @@ const Post = ({post,height}) => {
     const [numberLike,setNumberLike] = useState(post.numberOfLikes.length)
     const [isLike,setIsLike] = useState(false);
     const [user,setUser] = useState({})
+    
 
     useEffect(() => {
         const fetchUser = async () => {
-          const res = await axiosInstance.get(`users/finduser/${post.author}`,
-            {      
-              headers: { 
-                    token: `Bearer ${token}`,
+            const res = await axiosInstance.get(`users/finduser/${post.author}`,
+                {      
+                headers: { 
+                        token: `Bearer ${token}`,
+                    }
                 }
-            }
-          );
-          setUser(res.data);
+            );
+            setUser(res.data);
 
-          if(post.numberOfLikes.some(item => item === currenUser._id)) {
+            if(post.numberOfLikes.some(item => item === currenUser._id)) {
                 setIsLike(true);
             }else {
                 setIsLike(false);
@@ -131,6 +133,9 @@ const Post = ({post,height}) => {
             )
         setIsLike(!isLike);
         dispatch(setUserDataStatus(true));
+            if(currenUser._id !== user._id) {
+                dispatch(setOtherUserDataStatus(true));
+            }
         }else{
             await axiosInstance.put(`posts/like/${post._id}`,
                 {
@@ -147,6 +152,9 @@ const Post = ({post,height}) => {
             )
             setIsLike(!isLike);
             dispatch(setUserDataStatus(true));
+            if(currenUser._id !== user._id) {
+                dispatch(setOtherUserDataStatus(true));
+            }
         }
     }
 

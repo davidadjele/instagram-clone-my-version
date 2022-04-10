@@ -13,7 +13,7 @@ import {
  } from '../redux/otherUserRedux.js';
 
 import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
-import { API_URL, axiosInstance, fetchUsers, FREE_AVATAR } from '../requestMethods';
+import { API_URL, axiosInstance, fetchUsers, FREE_AVATAR, getOtherUserPosts, getUserPosts } from '../requestMethods';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
 const Container = styled.div`
@@ -167,7 +167,8 @@ const OtherProfilePage = () => {
             if(OtherUserDataChanged) {
                 await fetchUsers(dispatch,user,token,setOtherUser);
                 await fetchUsers(dispatch,curentUser,token, updateUser)
-                await dispatch(setOtherUserDataStatus(false));
+                await getOtherUserPosts(dispatch,user,token)
+                dispatch(setOtherUserDataStatus(false));
             }
         }
         updateInfo()

@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import Post from './Posts/Post'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { setUserDataStatus } from '../redux/userRedux.js';
 import { axiosInstance } from '../requestMethods.js';
 
@@ -77,10 +77,17 @@ const CancelContainer = styled.div`
 
 const Modal = ({closeModal,post}) => {
      const [optionIsOn, setOptionIsOn] = useState(false)
+     const [useOption,setUseOption] = useState(true);
      const token =  useSelector((state) => state.user.currentUserToken);
+     const currenUser =  useSelector((state) => state.user.currentUser);
      const dispatch = useDispatch()
      const navigate = useNavigate();
 
+     useEffect(()=>{
+        if(post.author !== currenUser._id) {
+            setUseOption(false);
+         }    
+     })
      const handleDeleteImage = async () =>{
 
         try {
@@ -100,7 +107,7 @@ const Modal = ({closeModal,post}) => {
   return (
     <Container>
         <CloseIconContainer>
-            <MoreHorizOutlined onClick={()=>setOptionIsOn(true)} style={{cursor:'pointer'}} />
+            {useOption && <MoreHorizOutlined onClick={()=>setOptionIsOn(true)} style={{cursor:'pointer'}} />}
             {optionIsOn && 
                 <OptionContainer>
                     <DeleteContainer onClick={()=>{
