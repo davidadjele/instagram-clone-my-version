@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { setOtherUserDataStatus } from '../redux/otherUserRedux.js';
+import { setOtherUser, setOtherUserDataStatus, setOtherUserPosts } from '../redux/otherUserRedux.js';
 import { setUserDataStatus } from '../redux/userRedux.js';
 import { API_URL, axiosInstance, FREE_AVATAR } from '../requestMethods.js';
 import {mobile} from '../responsive.js'
@@ -30,7 +31,7 @@ const UserInfoContainerLeft = styled.div`
     display: flex;
     align-items: center;
     margin-right: 20px;
-    /* ${mobile({ marginBottom: 20})} */
+    cursor: pointer;
 `;
 
 const ImageContainer = styled.img`
@@ -38,6 +39,11 @@ const ImageContainer = styled.img`
     width: 50px;
     border-radius: 50%;
     object-fit: cover;
+`;
+
+const UsernameContainer = styled.div`
+    cursor: pointer;
+    font-weight: bold;
 `;
 
 const UserInfoContainerRight = styled.div`
@@ -50,6 +56,7 @@ const UserInfoContainerRight = styled.div`
 const SuggestionsUsers = ({user}) => {
     const [isFollow,setIsFollow] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const curentUser = useSelector((state) => state.user.currentUser);
     const token =  useSelector((state) => state.user.currentUserToken);
 
@@ -124,14 +131,35 @@ const SuggestionsUsers = ({user}) => {
             }
         }
     }
+
+    const handleClickUser = async() => {
+        try {
+            dispatch( setOtherUser(user) );
+            navigate('/visitprofil/'+user.username);
+            const res = await axiosInstance.get(
+                `posts/findallimages/${user._id}`,
+                {
+                headers:  { 
+                    token: `Bearer ${token}`,
+                }
+                });
+                dispatch( setOtherUserPosts(res.data) );
+                window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
   return (
     <Container>
-        <UserInfoContainerLeft>
+        <UserInfoContainerLeft onClick={handleClickUser}>
             <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} alt={user.username}/>
         </UserInfoContainerLeft>
         <UserInfoContainerRight>
-            {user.username}
+            <UsernameContainer onClick={handleClickUser} >
+                {user.username}
+            </UsernameContainer> 
+            
             {<FollowButton isfollow ={isFollow} onClick={handleFollow}>{isFollow ? "Abonné(e)": "s'abonner"}</FollowButton>}
         </UserInfoContainerRight>
     </Container>
