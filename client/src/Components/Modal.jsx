@@ -122,7 +122,7 @@ const Modal = ({closeModal,post}) => {
                 </OptionContainer>}
             <CloseOutlined onClick={()=> closeModal(false)} style={{cursor:'pointer'}}/>
         </CloseIconContainer>
-        <Post post={post} height={true} />
+        <Post post={post} height={"true"} />
     </Container>
   )
 }

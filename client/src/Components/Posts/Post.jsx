@@ -48,14 +48,14 @@ const PostOwnerUsername = styled.span`
 `;
 
 const PostImageContainer = styled.div`
-    height: ${(props) => props.height ? '400px': 'auto'};  
+    height: ${(props) => props.height === "true"? '400px': 'auto'};  
     
 `;
 
 const PostImage = styled.img`
     width: 100%;
     height: 100%;
-    object-fit: ${(props) => props.height ? 'contain': 'cover'};
+    object-fit: ${(props) => props.height === "true" ? 'contain': 'cover'};
 `;
 
 
