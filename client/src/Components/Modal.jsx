@@ -87,7 +87,7 @@ const Modal = ({closeModal,post}) => {
         if(post.author !== currenUser._id) {
             setUseOption(false);
          }    
-     })
+     },[])
      const handleDeleteImage = async () =>{
 
         try {
