@@ -220,7 +220,7 @@ router.get("/followers/:id", verifyTokenAndAuthorization, async (req, res) => {
     }
 });
 
-//FETCH ALL USER
+//FETCH  USER by username
 router.get("/search/:username", verifyToken, async (req, res) => {
 
     try {
@@ -240,7 +240,7 @@ router.get("/search/:username", verifyToken, async (req, res) => {
 });
   
 //GET ALL USER
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
     const query = req.query.new;
     try {
         const users = query

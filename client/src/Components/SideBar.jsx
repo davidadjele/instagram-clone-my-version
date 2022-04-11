@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components'
-import { API_URL, FREE_AVATAR } from '../requestMethods.js';
+import { API_URL, axiosInstance, FREE_AVATAR, getNewUsers } from '../requestMethods.js';
+import { useSelector } from 'react-redux';
 
 import {mobile} from '../responsive.js'
+import SuggestionsUsers from './SuggestionsUsers.jsx';
 
 const SiderBar = styled.div`
     width: 300px;
@@ -43,6 +46,13 @@ const CopyRightContainer = styled.span`
 
 
 const SideBar = ({user}) => {
+  const token =  useSelector((state) => state.user.currentUserToken);
+  const OtherUserDataChanged =  useSelector((state) => state.otherUser.OtherUserDataChanged);
+  const [suggestionUser,setSuggestionUser] = useState(null);
+  
+  useEffect(()=>{
+    getNewUsers(setSuggestionUser,user,token);
+  },[OtherUserDataChanged])
   return (
         <SiderBar>
             <UserInfoContainer >
@@ -52,6 +62,7 @@ const SideBar = ({user}) => {
             <CopyRightContainer>
               © 2022 ConnectGram FROM AKD-PROD
             </CopyRightContainer>
+            {suggestionUser?.map(e => <SuggestionsUsers key={e._id} user={e}/>)}
         </SiderBar>
   )
 }

@@ -70,3 +70,21 @@ export const getOtherUserPosts= async (dispatch,userInfo,token) => {
     console.log(error);
   }
 }
+
+export const getNewUsers = async (setSuggestionUser,user,token) => {
+  console.log('here');
+  try {
+    const res = await axiosInstance.get(`users/?new=true`,
+      {
+        headers:  { 
+          token: `Bearer ${token}`,
+        }
+      });
+      setSuggestionUser(res
+        .data
+        .filter(e => !e.numberOfFollowers.some(item => item=== user._id) && e._id !== user._id)
+      );
+  } catch (error) {
+    console.log(error);
+  }
+}
