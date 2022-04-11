@@ -100,7 +100,7 @@ const TextArea = styled.textarea`
     border: 0.3px solid #d6d4d4;
     border-radius: 3px;
     
-    ${mobile({ width: '100%',height:'20px',marginBottom: '10px',fontSize:15})}
+    ${mobile({ width: '100%',marginBottom: '10px',fontSize:15})}
 `;
 
 const SubmitButtonContainer = styled.div`
