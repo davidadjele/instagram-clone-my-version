@@ -173,7 +173,7 @@ const OtherProfilePage = () => {
             }
         }
         updateInfo()
-      });
+      },[OtherUserDataChanged]);
 
 
     const handleFollow = async () =>{

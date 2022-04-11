@@ -186,7 +186,7 @@ const ProfilePage = () => {
             }
         }
         updateInfo();
-    });
+    },[userDataChanged, posts]);
 
     const handlePostButtonClick = () =>{
 
