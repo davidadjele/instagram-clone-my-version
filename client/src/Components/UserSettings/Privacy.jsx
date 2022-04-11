@@ -25,7 +25,7 @@ const Privacy = () => {
   return (
     <Container>
       <TitleContainer>
-        <Title>Terms and Condition</Title>
+        <Title>Terms and Condition loading...</Title>
       </TitleContainer>
     </Container>
   )

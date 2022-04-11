@@ -80,11 +80,10 @@ const Field = styled.h4`
 const Input = styled.input`
     padding: 5px;
     width: 70%;
-    border: none;
-    border-bottom: 0.6px solid black;
+    border: 0.3px solid #d6d4d4;
     border-radius: 3px;
 
-    ${mobile({ width: '100%',height:'20px',border: 'none',borderBottom:'0.6px solid black',marginBottom: '10px',fontSize: 12 })}
+    ${mobile({ width: '100%',height:'20px',marginBottom: '10px',fontSize: 15 })}
 `;
 
 const SubmitButtonContainer = styled.div`

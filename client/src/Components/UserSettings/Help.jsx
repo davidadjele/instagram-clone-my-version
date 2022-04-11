@@ -47,7 +47,7 @@ const Help = () => {
   return (
     <Container>
       <TitleContainer>
-        <Title>Help</Title>
+        <Title>Help loading...</Title>
         
       </TitleContainer>
       <Link onClick={handleLogout} >LOGOUT</Link>
