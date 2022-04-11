@@ -47,7 +47,6 @@ connect.once('open', () => {
 
 //UPDATE USER INFO
 router.put('/:id',verifyToken,upload.single('profileImage'), async (req, res) => {
-    
     /* tokenisé le mot de pass avant de changer */
     if(req.body.password){
         req.body.password = CryptoJS
@@ -58,7 +57,6 @@ router.put('/:id',verifyToken,upload.single('profileImage'), async (req, res) =>
             )
             .toString()
     }
-
     try {
         const updateUser = await User.updateMany(
             {_id:req.params.id},
@@ -68,7 +66,7 @@ router.put('/:id',verifyToken,upload.single('profileImage'), async (req, res) =>
                     email: req.body.email,
                     bio: req.body.bio,
                     location: req.body.location,
-                    profileImage: req.file.filename,
+                    profileImage: req.file?.filename,
                     gender: req.body.gender,
                     password: req.body.password,
                 }
@@ -78,7 +76,6 @@ router.put('/:id',verifyToken,upload.single('profileImage'), async (req, res) =>
 
         return res.status(200).json(updateUser);
     } catch (error) {
-        console.log('ERROR 500');
         return res.status(500).json(error)
     }
 })
