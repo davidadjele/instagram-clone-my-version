@@ -186,7 +186,16 @@ const ProfilePage = () => {
             }
         }
         updateInfo();
-    },[userDataChanged, posts]);
+    },[userDataChanged]);
+
+    useEffect(() => {
+        const updateInfo2 = async () =>{
+            if(posts === null) {
+                await getUserPosts(dispatch,setPosts,user,token)
+            }
+        }
+        updateInfo2();
+    });
 
     const handlePostButtonClick = () =>{
 
