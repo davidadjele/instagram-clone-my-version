@@ -48,7 +48,7 @@ const CloseIconContainer = styled.div`
 `;
 
 const OptionContainer = styled.div`
-    padding: 5px 15px 5px 15px;
+    padding: 5px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -57,20 +57,30 @@ const OptionContainer = styled.div`
     align-items: center;
     background-color: white;
     position: fixed;
-    box-shadow: 0 0 2px;
     transform:translate(-5%,-5%);
+    width: 150px;
     top: 5%;
     left: 5%;
 
 `;
 
 const DeleteContainer = styled.div`
+    padding: 5px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
     display: flex;
     cursor: pointer;
+    font-weight: bold;
     border-bottom: .5px solid #cecbcb;
 `;
 
 const CancelContainer = styled.div`
+    padding: 5px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
     display: flex;
     cursor: pointer;
 `;
