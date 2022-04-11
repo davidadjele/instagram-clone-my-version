@@ -82,6 +82,7 @@ const Input = styled.input`
     color:  gray;
     border-bottom: 0.5px solid #cecbcb;
     transition: all 1s ease-in-out;
+    ${mobile({ fontSize: 15})}
     &:focus{
         border-bottom: 0.7px solid #000;
     }
