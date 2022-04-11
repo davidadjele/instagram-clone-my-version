@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { setOtherUser, setOtherUserDataStatus, setOtherUserPosts } from '../redux/otherUserRedux.js';
 import { setUserDataStatus } from '../redux/userRedux.js';
-import { API_URL, axiosInstance, FREE_AVATAR } from '../requestMethods.js';
+import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos } from '../requestMethods.js';
 import {mobile} from '../responsive.js'
 
 const Container = styled.div`
@@ -133,21 +133,8 @@ const SuggestionsUsers = ({user}) => {
     }
 
     const handleClickUser = async() => {
-        try {
-            dispatch( setOtherUser(user) );
-            navigate('/visitprofil/'+user.username);
-            const res = await axiosInstance.get(
-                `posts/findallimages/${user._id}`,
-                {
-                headers:  { 
-                    token: `Bearer ${token}`,
-                }
-                });
-                dispatch( setOtherUserPosts(res.data) );
-                window.location.reload();
-        } catch (error) {
-            console.log(error);
-        }
+        navigate('/visitprofil/'+user.username);
+        await getOtherUserInfos(dispatch,user,token)
     }
     
   return (

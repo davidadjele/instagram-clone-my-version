@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setOtherUserPosts } from "./redux/otherUserRedux";
+import { setOtherUser, setOtherUserPosts } from "./redux/otherUserRedux";
 import { setCurrentUserPost } from "./redux/userRedux";
 
 const BASE_URL = "https://connectplace.herokuapp.com/api/";
@@ -86,5 +86,22 @@ export const getNewUsers = async (setSuggestionUser,user,token) => {
       );
   } catch (error) {
     console.log(error);
+  }
+}
+
+export const getOtherUserInfos = async (dispatch,user,token) => {
+  try {
+      dispatch( setOtherUser(user) );
+      const res = await axiosInstance.get(
+          `posts/findallimages/${user._id}`,
+          {
+          headers:  { 
+              token: `Bearer ${token}`,
+          }
+          });
+          dispatch( setOtherUserPosts(res.data) );
+          window.location.reload();
+  } catch (error) {
+      console.log(error);
   }
 }

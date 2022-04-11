@@ -10,10 +10,11 @@ import {
     Favorite,
     Bookmark
 } from '@material-ui/icons';
-import { API_URL, axiosInstance, FREE_AVATAR } from '../../requestMethods.js';
+import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos } from '../../requestMethods.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDataStatus } from '../../redux/userRedux.js';
 import { setOtherUserDataStatus } from '../../redux/otherUserRedux.js';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     border: .5px solid #cecbcb;
@@ -38,12 +39,14 @@ const PostOwnerImage = styled.img`
     width: 50px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
     ${mobile({ height: 40, width: 40})}
 `;
 
 const PostOwnerUsername = styled.span`
     font-weight: bold;
     padding-left: 5px;
+    cursor: pointer;
     ${mobile({ fontSize: 15})}
 `;
 
@@ -90,6 +93,7 @@ const PostDescription = styled.div`
 
 const Post = ({post,height}) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const token =  useSelector((state) => state.user.currentUserToken);
     const currenUser =  useSelector((state) => state.user.currentUser);
     const [savePost,setSavePost] = useState(false);
@@ -165,11 +169,16 @@ const Post = ({post,height}) => {
             setSavePost(true)
         }
     }
+
+    const handleClickUser = async () => {
+        navigate('/visitprofil/'+user.username);
+        getOtherUserInfos(dispatch,user,token) 
+    }
   return (
     <Container>
         <PostTitleContainer>
-            <PostOwnerImage src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} />
-            <PostOwnerUsername>{user.username}</PostOwnerUsername>
+            <PostOwnerImage onClick={handleClickUser} src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} />
+            <PostOwnerUsername onClick={handleClickUser}>{user.username}</PostOwnerUsername>
         </PostTitleContainer>
 
         <PostImageContainer height={height}>

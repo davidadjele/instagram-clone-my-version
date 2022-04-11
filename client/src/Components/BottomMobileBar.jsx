@@ -13,7 +13,7 @@ import {
 } from '../redux/otherUserRedux.js';
 
 import { useState } from 'react';
-import { axiosInstance } from '../requestMethods.js';
+import { axiosInstance, getOtherUserInfos } from '../requestMethods.js';
 
 const Container = styled.div`
     height: 8vh;
@@ -162,26 +162,11 @@ const BottomMobileBar = () => {
                         <Loading/>
                         : users?.map((item) => 
                             (<Result key={item.id} onClick={async ()=>{
-                                try {
-                                    dispatch( setOtherUser(item) );
-                                    navigate('/visitprofil/'+item.username);
-                                    const res = await axiosInstance.get(
-                                        `posts/findallimages/${item._id}`,
-                                        {
-                                        headers:  { 
-                                            token: `Bearer ${token}`,
-                                        }
-                                        });
-                                        dispatch( setOtherUserPosts(res.data) );
-                                        window.location.reload();
-                                } catch (error) {
-                                    console.log(error);
-                                }
-                                    
+                                navigate('/visitprofil/'+item.username);
+                                getOtherUserInfos(dispatch,item,token);
                                 }}><span>{item.username}</span></Result>
                             )
                         ) 
-                         
                     }
                 </SearchResultContainer>
             }
