@@ -15,10 +15,6 @@ import {
     setActiveProfile
 } from '../redux/NavBarRedux.js';
 
-import { 
-   setOtherUser, setOtherUserPosts
-} from '../redux/otherUserRedux.js';
-
 import { useState } from 'react';
 import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos } from '../requestMethods.js';
 
@@ -56,7 +52,7 @@ const Center = styled.div`
 
 const SearchResultContainer = styled.div`
     flex:1;
-    display: flex;
+    display: ${(props) => props.search ? 'flex': 'none'};
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -151,10 +147,12 @@ const Navbar = ({user}) => {
     const activeMessageButton = useSelector(state => state.active.activeMessage);
     const activeAddButton = useSelector(state => state.active.activeAdd);
     const [search,setSearch] = useState(null);
+    const [searchOn,setSearchOn] = useState(true);
     const [users,setUsers] = useState();
     const [loading,setLoading] = useState(true);
 
     const fetchUsers = async () => {
+        setSearchOn(true);
         try {
             setLoading(true);
             const res = await axiosInstance.get(
@@ -208,16 +206,17 @@ const Navbar = ({user}) => {
                 />
             </Center>
             {users &&
-                <SearchResultContainer>
+                <SearchResultContainer search={searchOn}>
                     {loading?
                         <Loading/>
                         : users.map((item) => 
                             (<Result key={item.id} onClick={async ()=>{
-                                navigate('/visitprofil/'+item.username);
-                                getOtherUserInfos(dispatch,item,token)
+                                    setSearchOn(false)
+                                    navigate('/visitprofil/'+item.username)
+                                    getOtherUserInfos(dispatch,item,token)
                                 }}
                             >
-                            {item.username}
+                                {item.username}
                             </Result>
                             )
                         ) 

@@ -8,10 +8,6 @@ import {mobile} from '../responsive.js'
 
 import {SearchOutlined} from '@material-ui/icons';
 
-import { 
-   setOtherUser, setOtherUserPosts
-} from '../redux/otherUserRedux.js';
-
 import { useState } from 'react';
 import { axiosInstance, getOtherUserInfos } from '../requestMethods.js';
 
@@ -49,7 +45,7 @@ const Center = styled.div`
 
 const SearchResultContainer = styled.div`
     flex:1;
-    display: flex;
+    display: ${(props) => props.search ? 'flex': 'none'};
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -119,9 +115,11 @@ const BottomMobileBar = () => {
     const token =  useSelector((state) => state.user.currentUserToken);
     const [search,setSearch] = useState(null);
     const [users,setUsers] = useState();
+    const [searchOn,setSearchOn] = useState(true);
     const [loading,setLoading] = useState(true);
 
     const fetchUsers = async () => {
+        setSearchOn(true);
         try {
             setLoading(true);
             if(search === '') {
@@ -157,14 +155,18 @@ const BottomMobileBar = () => {
                 />
             </Center>
             {users &&
-                <SearchResultContainer>
+                <SearchResultContainer search={searchOn}>
                     {loading?
                         <Loading/>
                         : users?.map((item) => 
                             (<Result key={item.id} onClick={async ()=>{
-                                navigate('/visitprofil/'+item.username);
-                                getOtherUserInfos(dispatch,item,token);
-                                }}><span>{item.username}</span></Result>
+                                    setSearchOn(false)
+                                    navigate('/visitprofil/'+item.username);
+                                    getOtherUserInfos(dispatch,item,token);
+                                }}
+                            >
+                                {item.username}
+                            </Result>
                             )
                         ) 
                     }

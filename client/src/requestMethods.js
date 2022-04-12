@@ -72,7 +72,6 @@ export const getOtherUserPosts= async (dispatch,userInfo,token) => {
 }
 
 export const getNewUsers = async (setSuggestionUser,user,token) => {
-  console.log('here');
   try {
     const res = await axiosInstance.get(`users/?new=true`,
       {
@@ -100,7 +99,7 @@ export const getOtherUserInfos = async (dispatch,user,token) => {
           }
           });
           dispatch( setOtherUserPosts(res.data) );
-          window.location.reload();
+          //window.location.reload();
   } catch (error) {
       console.log(error);
   }
