@@ -8,7 +8,8 @@ import {
     FavoriteBorderOutlined,
     BookmarkBorderOutlined,
     Favorite,
-    Bookmark
+    Bookmark,
+    SendOutlined
 } from '@material-ui/icons';
 import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos } from '../../requestMethods.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,6 +92,50 @@ const PostDescription = styled.div`
     ${mobile({ fontSize: 15})}
 `;
 
+const AddCommentContainer = styled.div` 
+    display: flex;
+    border-top: .5px solid #cecbcb;
+`;
+const CommentContainer = styled.div` 
+    display: flex;
+    flex:2;
+    padding: 5px;
+`;
+const Input = styled.input` 
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+`;
+const PostCommentContainer  = styled.div` 
+    display: flex;
+    flex:1;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px;
+    
+`;
+const CommentSection  = styled.div` 
+    display: flex;
+    padding: 5px;
+    ${mobile({ fontSize: 15})}
+`;
+const CommentOwnerContainer  = styled.div` 
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 5px;
+`;
+
+const CommentOwnerComment  = styled.div` 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+`;
+
+
+
+
+
 const Post = ({post,height}) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -99,7 +144,8 @@ const Post = ({post,height}) => {
     const [savePost,setSavePost] = useState(false);
     const [numberLike,setNumberLike] = useState(post.numberOfLikes.length)
     const [isLike,setIsLike] = useState(false);
-    const [user,setUser] = useState({})
+    const [user,setUser] = useState({});
+    const [comment,setComment] = useState('');
     
 
     useEffect(() => {
@@ -174,6 +220,32 @@ const Post = ({post,height}) => {
         navigate('/visitprofil/'+user.username);
         getOtherUserInfos(dispatch,user,token) 
     }
+
+    const handlePostComment = async () => {
+        await axiosInstance.put(`posts/addcomment/${post._id}`,
+            {
+                "comments": [
+                    {
+                        "commentOwnerId": currenUser._id,
+                        "commentOwnerUsername": currenUser.username,
+                        "commentOwnerUserProfileImage": currenUser.profileImage,
+                        "comment": comment
+                    }
+                ]
+            }
+        ,
+            {
+                headers:  { 
+                    token: `Bearer ${token}`,
+                }
+            }
+        )
+        dispatch(setUserDataStatus(true));
+        if(currenUser._id !== user._id) {
+            dispatch(setOtherUserDataStatus(true));
+        }
+        setComment('');
+    }
   return (
     <Container>
         <PostTitleContainer>
@@ -209,6 +281,26 @@ const Post = ({post,height}) => {
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
             <PostDescription> {post.desc}</PostDescription>
         </PostDescriptionContainer>
+        {/* post.comments?.slice(0,1).map */}
+        {post.comments?.map ( (c) => (
+            <CommentSection key={c._id}>
+                <CommentOwnerContainer>
+                    {c.commentOwnerUsername}
+                </CommentOwnerContainer>
+                <CommentOwnerComment>
+                    {c.comment}
+                </CommentOwnerComment>
+            </CommentSection>
+        ) )
+        }
+        <AddCommentContainer>
+            <CommentContainer>
+                <Input type="text" placeholder="Add comment..." value={comment} onChange={(e)=>setComment(e.target.value)} />
+            </CommentContainer>
+            <PostCommentContainer>
+                <SendOutlined onClick={handlePostComment} style={{cursor:'pointer'}}/>
+            </PostCommentContainer>
+        </AddCommentContainer>
     </Container>
   )
 }

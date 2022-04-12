@@ -10,6 +10,8 @@ const UserPostSchema = new mongoose.Schema(
         comments: [
             {
                 commentOwnerId: {type: Schema.Types.ObjectId, ref: 'User' },
+                commentOwnerUsername: {type: String},
+                commentOwnerUserProfileImage: {type: String},
                 comment: {type: String}
             }
         ]

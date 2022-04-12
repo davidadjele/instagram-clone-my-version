@@ -99,7 +99,6 @@ export const getOtherUserInfos = async (dispatch,user,token) => {
           }
           });
           dispatch( setOtherUserPosts(res.data) );
-          //window.location.reload();
   } catch (error) {
       console.log(error);
   }

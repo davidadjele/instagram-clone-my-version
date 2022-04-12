@@ -68,6 +68,28 @@ router.post("/:id", upload.single('image'), async (req, res) => {
     }
 });
 
+//ADD COMMENT
+router.put('/addcomment/:postid',verifyToken, async (req, res) => {
+    /* {
+        comments: [
+            {
+                    commentOwnerId: userId
+                },
+                    comment: comment
+                }
+            }
+        ]
+    } */
+    try {
+        const updateUserPost= await UserPost.updateOne({_id:req.params.postid}, {
+            $push:{ comments:req.body.comments}
+        });
+        return res.status(200).json(updateUserPost);
+    } catch (error) {
+        return res.status(500).json(error)
+    }
+})
+
 //GET ALL USER POST BY AUTHOR ID
 router.get('/findallimages/:id',verifyToken,(req, res) => {
     UserPost
