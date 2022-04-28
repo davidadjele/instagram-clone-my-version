@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setOtherUser, setOtherUserPosts } from "./redux/otherUserRedux";
+import { setOtherUser, setOtherUserPosts, setOtherUserDataStatus } from "./redux/otherUserRedux";
 import { setCurrentUserPost } from "./redux/userRedux";
 
 const BASE_URL = "https://connectplace.herokuapp.com/api/";
@@ -10,14 +10,14 @@ const currentUser = user && JSON.parse(user).currentUser; */
 
 /* Change for BASE_URL in prod and BASE_URL_DEV for dev */
 export const publicRequest = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL_DEV,
 });
 
-export const API_URL = BASE_URL;
+export const API_URL = BASE_URL_DEV;
 
 /* Change for BASE_URL xin prod and BASE_URL_DEV for dev */
 export const axiosInstance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL_DEV,
 });
 
 export const FREE_AVATAR = 'https://register.pravasikerala.org/public/images/avatar5.png';
@@ -70,6 +70,22 @@ export const getOtherUserPosts= async (dispatch,userInfo,token) => {
     console.log(error);
   }
 }
+export const getOtherUserInfos = async (dispatch,user,token) => {
+  try {
+      dispatch( setOtherUser(user) );
+      const res = await axiosInstance.get(
+          `posts/findallimages/${user._id}`,
+          {
+          headers:  { 
+              token: `Bearer ${token}`,
+          }
+          });
+          dispatch( setOtherUserPosts(res.data) );
+          dispatch( setOtherUserDataStatus(true));
+  } catch (error) {
+      console.log(error);
+  }
+}
 
 export const getNewUsers = async (setSuggestionUser,user,token) => {
   try {
@@ -88,18 +104,3 @@ export const getNewUsers = async (setSuggestionUser,user,token) => {
   }
 }
 
-export const getOtherUserInfos = async (dispatch,user,token) => {
-  try {
-      dispatch( setOtherUser(user) );
-      const res = await axiosInstance.get(
-          `posts/findallimages/${user._id}`,
-          {
-          headers:  { 
-              token: `Bearer ${token}`,
-          }
-          });
-          dispatch( setOtherUserPosts(res.data) );
-  } catch (error) {
-      console.log(error);
-  }
-}

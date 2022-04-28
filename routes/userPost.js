@@ -70,16 +70,7 @@ router.post("/:id", upload.single('image'), async (req, res) => {
 
 //ADD COMMENT
 router.put('/addcomment/:postid',verifyToken, async (req, res) => {
-    /* {
-        comments: [
-            {
-                    commentOwnerId: userId
-                },
-                    comment: comment
-                }
-            }
-        ]
-    } */
+
     try {
         const updateUserPost= await UserPost.updateOne({_id:req.params.postid}, {
             $push:{ comments:req.body.comments}

@@ -11,7 +11,7 @@ import {
     Bookmark,
     SendOutlined
 } from '@material-ui/icons';
-import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos } from '../../requestMethods.js';
+import { API_URL, axiosInstance, FREE_AVATAR, getOtherUserInfos, getOtherUserPosts } from '../../requestMethods.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserDataStatus } from '../../redux/userRedux.js';
 import { setOtherUserDataStatus } from '../../redux/otherUserRedux.js';
@@ -131,6 +131,17 @@ const CommentOwnerComment  = styled.div`
     align-items: center;
     justify-content: flex-start;
 `;
+
+
+const ViewAllComment  = styled.div` 
+    display: flex;
+    align-items: center;
+    color: gray;
+    padding: 5px;
+    cursor: pointer;
+    ${mobile({ fontSize: 17})}
+`;
+
 
 
 
@@ -263,7 +274,11 @@ const Post = ({post,height}) => {
                     ? <Favorite onClick={handleLikeButton} style={{marginRight:'10',cursor:'pointer'}}/>
                     : <FavoriteBorderOutlined onClick={handleLikeButton}  style={{marginRight:'10',cursor:'pointer'}}/>
                 }
-                <ModeCommentOutlined style={{cursor:'pointer'}}/>
+                <ModeCommentOutlined onClick={
+                    ()=> {
+                        navigate('/comments',{ state: post })
+                    }
+                } style={{marginRight:'10',cursor:'pointer'}}/>
             </PostButtonsLeftContainer>
             <PostButtonsRightContainer>
                 {savePost
@@ -281,8 +296,14 @@ const Post = ({post,height}) => {
             <PostOwnerUsername>{user.username}</PostOwnerUsername>
             <PostDescription> {post.desc}</PostDescription>
         </PostDescriptionContainer>
+        <ViewAllComment onClick={
+                    ()=> {
+                        navigate('/comments',{ state: post })
+                    }}
+        >View all {post.comments.length} comments</ViewAllComment>
         {/* post.comments?.slice(0,1).map */}
-        {post.comments?.map ( (c) => (
+        {/* .sort((a, b) => a.createdAt > b.createdAt ? -1 : 1) */}
+        {post.comments?.slice(0,1).map ( (c) => (
             <CommentSection key={c._id}>
                 <CommentOwnerContainer>
                     {c.commentOwnerUsername}

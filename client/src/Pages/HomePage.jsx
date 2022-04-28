@@ -55,7 +55,6 @@ const HomePage = () => {
                   }
                 });
                 setPosts(res.data)
-                console.log(posts);
             } catch (error) {
               console.log(error);
             }

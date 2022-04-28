@@ -15,6 +15,7 @@ import MessagePage from "./Pages/MessagePage";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import OtherProfilePage from "./Pages/OtherProfilePage";
+import CommentPostPage from "./Pages/CommentPostPage";
 
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/newpost' element={user ? <CreatePostPage user={user} /> : <Navigate to='/login'/>}/>
           <Route path='/message' element={user ? <MessagePage user={user} />: <Navigate to='/login'/>}/>
           <Route path='/visitprofil/:username' element={ user ? <OtherProfilePage /> : <Navigate to='/login'/>}/>
+          <Route path='/comments' element={ user ? <CommentPostPage /> : <Navigate to='/login'/>}/>
           <Route  
             path='/login' 
             element={user 
