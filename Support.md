@@ -108,5 +108,5 @@ git add .
 git commit -am "my first commit"
 ```
 ```bash
-git push heroku master
+git push heroku main
 ```
