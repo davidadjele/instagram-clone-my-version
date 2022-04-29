@@ -5,14 +5,14 @@ import styled from 'styled-components'
 import Navbar from '../Components/Navbar';
 import BottomMobileBar from '../Components/BottomMobileBar';
 
-import {mobile} from '../responsive.js'
+import { mobile } from '../responsive.js'
 import { useDispatch, useSelector } from "react-redux";
 
 import {
     setOtherUser, setOtherUserDataStatus
- } from '../redux/otherUserRedux.js';
+} from '../redux/otherUserRedux.js';
 
-import OtherUserPosts from '../Components/OtherUserPosts /OtherUserPosts';
+import OtherUserPosts from '../Components/OtherUserPosts/OtherUserPosts';
 import { API_URL, axiosInstance, fetchUsers, FREE_AVATAR, getOtherUserPosts, getUserPosts } from '../requestMethods';
 import { setUserDataStatus, updateUser } from '../redux/userRedux';
 
@@ -29,7 +29,7 @@ const UserInfoContainer = styled.div`
     margin-right: 40px;
     padding: 30px;
     justify-content: center;
-    ${mobile({ flexDirection: 'column', margin:0})}
+    ${mobile({ flexDirection: 'column', margin: 0 })}
 `;
 
 const UserInfoContainerLeft = styled.div`
@@ -38,7 +38,7 @@ const UserInfoContainerLeft = styled.div`
     align-items: center;
     flex: 1;
     margin-right: 20px;
-    ${mobile({ marginBottom: 20})}
+    ${mobile({ marginBottom: 20 })}
 `;
 
 const ImageContainer = styled.img`
@@ -63,7 +63,7 @@ const Username = styled.p`
     margin-left: 10px;
     margin-right: 25px;
     font-weight: bold;
-    ${mobile({ fontSize: 20})}
+    ${mobile({ fontSize: 20 })}
 `;
 
 const FollowButton = styled.button`
@@ -72,16 +72,16 @@ const FollowButton = styled.button`
     border-radius: 5px;
     cursor: pointer;
     cursor: pointer;
-    ${mobile({ fontSize: 20})}
-    background: ${(props) => props.isfollow ? 'none': 'black'};
-    color: ${(props) => props.isfollow ? 'black': 'white'};
+    ${mobile({ fontSize: 20 })}
+    background: ${(props) => props.isfollow ? 'none' : 'black'};
+    color: ${(props) => props.isfollow ? 'black' : 'white'};
 `;
 
 const UserInfoContainerRightMiddle = styled.div`
     display: flex;
     margin-left: 10px;
     margin-top: 4px;
-    ${mobile({ fontSize: 18})}
+    ${mobile({ fontSize: 18 })}
 `;
 
 const UserInfoContainerRightBottom = styled.div`
@@ -103,7 +103,7 @@ const NumberOfPost = styled.div`
     justify-content: center;
     margin-right: 20px;
 `;
-const NumberOfFollower= styled.div`
+const NumberOfFollower = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -148,58 +148,58 @@ const Paragraph = styled.p`
 `;
 
 const OtherProfilePage = () => {
-    const [isFollow,setIsFollow] = useState(false);
+    const [isFollow, setIsFollow] = useState(false);
     const dispatch = useDispatch();
-    const user =  useSelector((state) => state.otherUser.otherUser);
-    const userPost =  useSelector((state) => state.otherUser.otherUserPosts);
+    const user = useSelector((state) => state.otherUser.otherUser);
+    const userPost = useSelector((state) => state.otherUser.otherUserPosts);
     const curentUser = useSelector((state) => state.user.currentUser);
-    const token =  useSelector((state) => state.user.currentUserToken);
-    const OtherUserDataChanged =  useSelector((state) => state.otherUser.OtherUserDataChanged);
+    const token = useSelector((state) => state.user.currentUserToken);
+    const OtherUserDataChanged = useSelector((state) => state.otherUser.OtherUserDataChanged);
 
     useEffect(() => {
 
         const updateInfo = async () => {
-            if(curentUser.numberOfFollowing.some(item => item=== user._id)) {
+            if (curentUser.numberOfFollowing.some(item => item === user._id)) {
                 setIsFollow(true);
-            }else {
+            } else {
                 setIsFollow(false);
             }
-            if(OtherUserDataChanged) {
-                await fetchUsers(dispatch,user,token,setOtherUser);
-                await fetchUsers(dispatch,curentUser,token, updateUser)
+            if (OtherUserDataChanged) {
+                await fetchUsers(dispatch, user, token, setOtherUser);
+                await fetchUsers(dispatch, curentUser, token, updateUser)
                 //TODO get current user post update also
-                await getOtherUserPosts(dispatch,user,token)
+                await getOtherUserPosts(dispatch, user, token)
                 dispatch(setOtherUserDataStatus(false));
             }
         }
         updateInfo()
-      },[OtherUserDataChanged]);
+    }, [OtherUserDataChanged]);
 
 
-    const handleFollow = async () =>{
-        
-        if(isFollow){
-            
+    const handleFollow = async () => {
+
+        if (isFollow) {
+
             try {
                 //retirer de following de user courant
                 await axiosInstance.delete(`users/removefollowing/${curentUser._id}`,
                     {
-                        headers:  { 
-                        token: `Bearer ${token}`,
+                        headers: {
+                            token: `Bearer ${token}`,
                         },
-                        data:{
-                            "userToRemove":user._id
+                        data: {
+                            "userToRemove": user._id
                         }
                     }
                 )
-                 //retirer de followers de other user
+                //retirer de followers de other user
                 await axiosInstance.delete(`users/removefollowers/${user._id}`,
                     {
-                        headers:  { 
-                          token: `Bearer ${token}`,
+                        headers: {
+                            token: `Bearer ${token}`,
                         },
-                        data:{
-                            "userToRemove":curentUser._id
+                        data: {
+                            "userToRemove": curentUser._id
                         }
                     }
                 )
@@ -208,9 +208,9 @@ const OtherProfilePage = () => {
             } catch (error) {
                 console.log(error);
             }
-           
-        }else{
-            
+
+        } else {
+
             try {
                 //ajouter dans following de user courant
                 await axiosInstance.put(`users/addfollowing/${curentUser._id}`,
@@ -219,23 +219,23 @@ const OtherProfilePage = () => {
                             user._id
                         ]
                     }
-                ,
+                    ,
                     {
-                        headers:  { 
+                        headers: {
                             token: `Bearer ${token}`,
                         }
                     }
                 )
-                    //ajouter dans followers de other user
+                //ajouter dans followers de other user
                 await axiosInstance.put(`users/addfollowers/${user._id}`,
                     {
                         "numberOfFollowers": [
                             curentUser._id
                         ]
                     }
-                ,
+                    ,
                     {
-                        headers:  { 
+                        headers: {
                             token: `Bearer ${token}`,
                         }
                     }
@@ -243,55 +243,55 @@ const OtherProfilePage = () => {
                 dispatch(setOtherUserDataStatus(true));
                 dispatch(setUserDataStatus(true));
             } catch (error) {
-            console.log(error);
+                console.log(error);
             }
         }
     }
 
-  return (
-    <Container>
-        <Navbar user={curentUser}/>
-        <UserInfoContainer>
-            <UserInfoContainerLeft>
-                <ImageContainer src={user.profileImage === ''? FREE_AVATAR : API_URL+"users/find/"+user.profileImage} alt={user.username}/>
-            </UserInfoContainerLeft>
-            
-            <UserInfoContainerRight>
+    return (
+        <Container>
+            <Navbar user={curentUser} />
+            <UserInfoContainer>
+                <UserInfoContainerLeft>
+                    <ImageContainer src={user.profileImage === '' ? FREE_AVATAR : API_URL + "users/find/" + user.profileImage} alt={user.username} />
+                </UserInfoContainerLeft>
 
-                <UserInfoContainerRightTop>
-                    <MenuItem>
-                        <Username>{user.username}</Username>
-                    </MenuItem>
-                    <MenuItem>
-                        <FollowButton isfollow ={isFollow} onClick={handleFollow} >{isFollow ? "Abonné(e)": "s'abonner"}</FollowButton>
-                    </MenuItem>
-                </UserInfoContainerRightTop>
+                <UserInfoContainerRight>
 
-                <UserInfoContainerRightMiddle>
-                    <NumberOfPost><Paragraph>{userPost?.images.length}</Paragraph> posts</NumberOfPost>
-                    <NumberOfFollower><Paragraph>{user.numberOfFollowers.length}</Paragraph> followers</NumberOfFollower>
-                    <NumberOfFollowing><Paragraph>{user.numberOfFollowing.length}</Paragraph> following</NumberOfFollowing>
-                </UserInfoContainerRightMiddle>
+                    <UserInfoContainerRightTop>
+                        <MenuItem>
+                            <Username>{user.username}</Username>
+                        </MenuItem>
+                        <MenuItem>
+                            <FollowButton isfollow={isFollow} onClick={handleFollow} >{isFollow ? "Abonné(e)" : "s'abonner"}</FollowButton>
+                        </MenuItem>
+                    </UserInfoContainerRightTop>
 
-                <UserInfoContainerRightBottom>
-                    <Surname>{user.name} 🇹🇬</Surname>
-                    <Description>{user.bio}</Description>
-                    <Location>{user.location}</Location>
-                </UserInfoContainerRightBottom>
+                    <UserInfoContainerRightMiddle>
+                        <NumberOfPost><Paragraph>{userPost?.images.length}</Paragraph> posts</NumberOfPost>
+                        <NumberOfFollower><Paragraph>{user.numberOfFollowers.length}</Paragraph> followers</NumberOfFollower>
+                        <NumberOfFollowing><Paragraph>{user.numberOfFollowing.length}</Paragraph> following</NumberOfFollowing>
+                    </UserInfoContainerRightMiddle>
 
-            </UserInfoContainerRight>
-        </UserInfoContainer>
-        
-        <UserMiddleButton>
-            <UserMiddlePostButton >
-                <GridOnOutlined style={{marginRight:6}} />
-                <Post>Posts</Post>
-            </UserMiddlePostButton>
-        </UserMiddleButton>
-        {userPost && <OtherUserPosts posts={userPost}/>}
-        <BottomMobileBar/>
-    </Container>
-  )
+                    <UserInfoContainerRightBottom>
+                        <Surname>{user.name} 🇹🇬</Surname>
+                        <Description>{user.bio}</Description>
+                        <Location>{user.location}</Location>
+                    </UserInfoContainerRightBottom>
+
+                </UserInfoContainerRight>
+            </UserInfoContainer>
+
+            <UserMiddleButton>
+                <UserMiddlePostButton >
+                    <GridOnOutlined style={{ marginRight: 6 }} />
+                    <Post>Posts</Post>
+                </UserMiddlePostButton>
+            </UserMiddleButton>
+            {userPost && <OtherUserPosts posts={userPost} />}
+            <BottomMobileBar />
+        </Container>
+    )
 }
 
 export default OtherProfilePage
